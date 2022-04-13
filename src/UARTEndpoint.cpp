@@ -4,10 +4,18 @@
 
 #include "UARTEndpoint.h"
 
-void UARTEndpoint::onMessage(MavlinkMessage &message) {
+#include <utility>
 
-}
 
 void UARTEndpoint::sendMessage(const MavlinkMessage &message) {
 
 }
+
+void UARTEndpoint::onMessage(MavlinkMessage &message) {
+    callback(message);
+}
+
+void UARTEndpoint::registerCallback(MAV_MSG_CALLBACK cb) {
+    this->callback=cb;
+}
+

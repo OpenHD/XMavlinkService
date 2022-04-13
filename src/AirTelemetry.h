@@ -23,7 +23,7 @@ public:
     // This must NEVER crash
     void loopInfinite();
 private:
-    UARTEndpoint flightController;
+    //UARTEndpoint flightController;
 };
 
 

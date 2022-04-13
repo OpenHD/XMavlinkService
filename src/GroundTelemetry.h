@@ -6,6 +6,7 @@
 #define OPENHD_TELEMETRY_GROUNDTELEMETRY_H
 
 #include "Helper.hpp"
+#include "TCPEndpoint.h"
 
 class GroundTelemetry {
 public:
@@ -19,6 +20,8 @@ public:
     // this is the main entry point for this service - it will run infinitely (until the air unit is either powered down or crashes).
     // This must NEVER crash
     void loopInfinite();
+private:
+
 };
 
 

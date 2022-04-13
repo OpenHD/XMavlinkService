@@ -17,5 +17,6 @@ void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
 }
 
 void GroundTelemetry::loopInfinite() {
-
+    TCPEndpoint tcpEndpoint; // can be QOpenHD, but must not be QOpenHD
+    tcpEndpoint.loopInfinite();
 }
