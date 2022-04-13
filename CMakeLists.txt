@@ -3,4 +3,8 @@ project(XMavlinkService)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(XMavlinkService main.cpp)
+add_executable(XMavlinkService main.cpp
+        src/AirTelemetry.cpp
+        src/GroundTelemetry.cpp
+        src/TCPEndpoint.cpp
+        src/UARTEndpoint.cpp)
