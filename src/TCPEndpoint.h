@@ -19,6 +19,9 @@
 // However, this class will always allow a new client to (re)-connect while running.
 class TCPEndpoint {
 public:
+    /**
+     * @param Port the port this server runs on
+     */
     explicit TCPEndpoint(int Port=1234):PORT(Port), _socket(_io_service){};
     // send message to all connected clients (for example QOpenHD)
     void sendMessageToAllClients(MavlinkMessage& message);

@@ -5,6 +5,8 @@
 #ifndef XMAVLINKSERVICE_UARTENDPOINT_H
 #define XMAVLINKSERVICE_UARTENDPOINT_H
 
+#include <utility>
+
 #include "Helper.hpp"
 
 // UART endpoint
@@ -18,6 +20,9 @@
 
 class UARTEndpoint {
 public:
+    explicit UARTEndpoint(std::string serial_port):SERIAL_PORT(std::move(serial_port)){
+        //
+    }
     void sendMessage(const MavlinkMessage& message);
     // called every time this endpoint has received a new message
     void registerCallback(MAV_MSG_CALLBACK cb);
@@ -27,6 +32,7 @@ public:
 private:
     void onMessage(MavlinkMessage& message);
     MAV_MSG_CALLBACK callback=nullptr;
+    const std::string SERIAL_PORT;
 };
 
 
