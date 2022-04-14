@@ -7,6 +7,7 @@
 
 #include "../mav_include.h"
 #include <iostream>
+#include <chrono>
 
 // Mavlink Endpoint
 // A Mavlink endpoint hides away the underlying connection - e.g. UART, TCP, UDP.
@@ -41,6 +42,14 @@ public:
         }
         callback=std::move(cb);
     }
+    /**
+     * If (for some reason) you need to reason if this endpoint is alive, just check if it has received any mavlink messages
+     * in the last X seconds
+     */
+     bool isAlive(){
+        //return (std::chrono::steady_clock::now()-lastMessage).count()>std::;
+        return true;
+     }
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
     // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
@@ -49,6 +58,7 @@ protected:
         for(int i=0;i<data_len;i++){
             uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
             if (res) {
+                lastMessage=std::chrono::steady_clock::now();
                 MavlinkMessage message{msg};
                 debugMavlinkMessage(message.m,TAG.c_str());
                 if(callback!= nullptr){
@@ -62,6 +72,7 @@ protected:
 private:
     const std::string TAG;
     mavlink_status_t receiveMavlinkStatus{};
+    std::chrono::steady_clock::time_point lastMessage;
 };
 
 #endif //XMAVLINKSERVICE_MENDPOINT_H
