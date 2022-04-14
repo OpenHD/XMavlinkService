@@ -47,8 +47,7 @@ public:
      * in the last X seconds
      */
      bool isAlive(){
-        //return (std::chrono::steady_clock::now()-lastMessage).count()>std::;
-        return true;
+        return (std::chrono::steady_clock::now()-lastMessage).count()>std::chrono::seconds(5).count();
      }
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
