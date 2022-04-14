@@ -12,7 +12,7 @@
 #include <array>
 #include <boost/asio.hpp>
 
-// dummy for now, this is what handles the Wifibroadcast out/in
+// dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
 class WBEndpoint :public MEndpoint{
 public:
     explicit WBEndpoint();
