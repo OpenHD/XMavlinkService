@@ -7,11 +7,19 @@
 
 #include <functional>
 
+#include "mav_include.h"
+
 struct MavlinkMessage{
-    int lol;
+    mavlink_message_t m;
+    uint8_t* data(){
+        return nullptr;
+    }
+    int data_len(){
+        return 0;
+    }
 };
 
-// For registering a callback that is called every time component X receives a new Message
+// For registering a callback that is called every time component X receives a new Mavlink Message
 typedef std::function<void(MavlinkMessage& mavlinkMessage)> MAV_MSG_CALLBACK;
 
 #endif //XMAVLINKSERVICE_HELPER_H

@@ -1,0 +1,6 @@
+[submodule "lib/mavlink"]
+	path = lib/mavlink
+	url = git@github.com:OpenHD/mavlink.git
+[submodule "lib/c_library_v2"]
+	path = lib/c_library_v2
+	url = git@github.com:mavlink/c_library_v2.git
