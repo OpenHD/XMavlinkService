@@ -97,11 +97,3 @@ void TCPEndpoint::startLoopInfinite() {
     //loopInfinite();
 }
 
-
-void TCPEndpoint::handleRead(const boost::system::error_code &error, size_t bytes_transferred) {
-
-}
-
-void TCPEndpoint::handleWrite(const boost::system::error_code &error, size_t bytes_transferred) {
-
-}

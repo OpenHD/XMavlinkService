@@ -47,10 +47,6 @@ private:
     boost::asio::io_service _io_service;
     boost::asio::ip::tcp::socket _socket;
 private:
-    void handleRead(const boost::system::error_code& error,
-                    size_t bytes_transferred);
-    void handleWrite(const boost::system::error_code& error,
-                     size_t bytes_transferred);
 };
 
 

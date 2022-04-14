@@ -71,6 +71,7 @@ void SerialEndpoint::handleRead(const boost::system::error_code& error,
             }
         }
     }
+    startReceive();
 }
 
 void SerialEndpoint::handleWrite(const boost::system::error_code& error,
