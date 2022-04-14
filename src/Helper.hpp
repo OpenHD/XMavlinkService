@@ -11,11 +11,11 @@
 
 struct MavlinkMessage{
     mavlink_message_t m;
-    uint8_t* data(){
-        return nullptr;
-    }
-    int data_len(){
-        return 0;
+    std::vector<uint8_t> pack(){
+        std::vector<uint8_t> buf(MAVLINK_MAX_PACKET_LEN);
+        auto size = mavlink_msg_to_send_buffer(buf.data(), &m);
+        buf.resize(size);
+        return buf;
     }
 };
 

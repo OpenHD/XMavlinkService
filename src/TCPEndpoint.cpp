@@ -14,14 +14,15 @@
 
 void TCPEndpoint::sendMessageToAllClients(MavlinkMessage &message) {
     try {
-        _socket.async_write_some(boost::asio::buffer(message.data(),message.data_len()),[](const boost::system::error_code& error,
+        const auto tmp=message.pack();
+        _socket.async_write_some(boost::asio::buffer(tmp.data(),tmp.size()),[](const boost::system::error_code& error,
                                                                                            size_t bytes_transferred){
             std::cout<<"TCP socket write error\n";
         });
-    } catch (...) {
-        std::cerr << "TCP: catch handle_write error" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "TCP: catch handle_write error"<<e.what() << std::endl;
     }
-    _socket.write_some(boost::asio::buffer(message.data(),message.data_len()));
+    //_socket.write_some(boost::asio::buffer(message.data(),message.data_len()));
 }
 
 void TCPEndpoint::onMessageAnyClient(MavlinkMessage &message) {
