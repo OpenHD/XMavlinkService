@@ -4,19 +4,20 @@
 
 #include "TCPEndpoint.h"
 #include <iostream>
+#include <thread>
 #include <boost/asio.hpp>
 #include <boost/asio/ts/buffer.hpp>
 #include <boost/asio/ts/internet.hpp>
-
+#include <boost/thread.hpp>
 #include <utility>
 
 #include "mav_include.h"
 
 void TCPEndpoint::sendMessageToAllClients(MavlinkMessage &message) {
+    debugMavlinkMessage(message.m,"TCPEndpoint::send");
     try {
         const auto tmp=message.pack();
-        _socket.async_write_some(boost::asio::buffer(tmp.data(),tmp.size()),[](const boost::system::error_code& error,
-                                                                                           size_t bytes_transferred){
+        _socket.async_write_some(boost::asio::buffer(tmp.data(),tmp.size()),[this](const boost::system::error_code& error,size_t bytes_transferred){
             std::cout<<"TCP socket write error\n";
         });
     } catch (const std::exception& e) {
@@ -31,10 +32,10 @@ void TCPEndpoint::onMessageAnyClient(MavlinkMessage &message) {
     }
 }
 
-[[noreturn]] void TCPEndpoint::loopInfinite() {
+void TCPEndpoint::loopInfinite() {
     while (true){
         //listen for new connection
-        boost::asio::ip::tcp::acceptor acceptor_(_io_service, boost::asio::ip::tcp::endpoint( boost::asio::ip::tcp::v4(), 1234 ));
+        boost::asio::ip::tcp::acceptor acceptor_(_io_service, boost::asio::ip::tcp::endpoint( boost::asio::ip::tcp::v4(), PORT));
         //waiting for connection
         std::cout<<"Waiting for client to connect\n";
         acceptor_.accept(_socket);
@@ -83,9 +84,14 @@ void TCPEndpoint::parseNewData(uint8_t* data, int data_len) {
     for(int i=0;i<data_len;i++){
         uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
         if (res) {
-            printf("Received message with ID %d, sequence: %d from component %d of system %d", msg.msgid, msg.seq, msg.compid, msg.sysid);
+            debugMavlinkMessage(msg,"TCPEndpoint::receive");
             MavlinkMessage message{msg};
             onMessageAnyClient(message);
         }
     }
+}
+
+void TCPEndpoint::startLoopInfinite() {
+    boost::thread t1(&TCPEndpoint::loopInfinite, this);
+    //loopInfinite();
 }

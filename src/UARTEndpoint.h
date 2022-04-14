@@ -21,6 +21,9 @@ public:
     void sendMessage(const MavlinkMessage& message);
     // called every time this endpoint has received a new message
     void registerCallback(MAV_MSG_CALLBACK cb);
+    //
+    void loopInfinite();
+    void startLoopInfinite();
 private:
     void onMessage(MavlinkMessage& message);
     MAV_MSG_CALLBACK callback=nullptr;
