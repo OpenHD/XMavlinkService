@@ -25,7 +25,7 @@ public:
      */
     explicit MEndpoint(std::string tag="MEndpoint"):TAG(std::move(tag)){};
     /**
-     * send a message to this endpoint.
+     * send a message via this endpoint.
      * If the endpoint is silently disconnected, this MUST NOT FAIL/CRASH
      * @param message the message to send
      */
