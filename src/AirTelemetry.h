@@ -10,6 +10,9 @@
 #include "endpoints/UDPEndpoint.h"
 #include "endpoints/WBEndpoint.h"
 
+/**
+ * OpenHD Air telemetry service
+ */
 class AirTelemetry {
 public:
     explicit AirTelemetry();

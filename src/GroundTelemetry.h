@@ -11,6 +11,9 @@
 #include "endpoints/WBEndpoint.h"
 #include <memory>
 
+/**
+ * OpenHD Ground telemetry service
+ */
 class GroundTelemetry {
 public:
     explicit GroundTelemetry();
