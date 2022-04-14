@@ -6,7 +6,7 @@
 #define XMAVLINKSERVICE_UDPENDPOINT_H
 
 #include "../Helper.hpp"
-
+#include <thread>
 
 // Wraps two UDP ports, one for sending and one for receiving data
 // (since TCP and UART for example also allow sending and receiving).
@@ -14,22 +14,7 @@
 // call sendMessage
 class UDPEndpoint {
 public:
-    UDPEndpoint(const int senderPort,const int receiverPort):SEND_PORT(senderPort),RECV_PORT(receiverPort){
-        if(senderPort==receiverPort){
-            throw std::runtime_error("UDPEndpoint - cannot send and receive on same UDP port\n");
-        }
-        if(SEND_PORT>=0){
-            transmitter=std::make_unique<SocketHelper::UDPForwarder>(SocketHelper::ADDRESS_LOCALHOST,SEND_PORT);
-        }
-        if(RECV_PORT>=0){
-            const auto cb=[this](const uint8_t* payload,const std::size_t payloadSize)mutable {
-                this->processData(payload,(int)payloadSize);
-            };
-            receiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,RECV_PORT,cb);
-            receiver->start();
-        }
-        std::cout<<"UDPEndpoint created send:"<<senderPort<<" recv:"<<receiverPort<<"\n";
-    }
+    UDPEndpoint(const int senderPort,const int receiverPort);
     void sendMessage(MavlinkMessage& message);
     void registerCallback(MAV_MSG_CALLBACK cb);
 private:

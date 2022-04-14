@@ -34,6 +34,7 @@
 #include <memory>
 #include <cassert>
 #include <functional>
+#include <thread>
 
 #include "mav_include.h"
 
@@ -153,10 +154,20 @@ namespace SocketHelper {
             receiving= false;
             close(mSocket);
         }
+        void runInBackground(){
+            receiverThread=std::thread([this](){
+                start();
+            });
+        }
+        void stopBackground(){
+            stop();
+            receiverThread.join();
+        }
     private:
         const OUTPUT_DATA_CALLBACK mCb;
         bool receiving=true;
         int mSocket;
+        std::thread receiverThread;
     };
 }
 

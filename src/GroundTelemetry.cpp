@@ -5,7 +5,8 @@
 #include "GroundTelemetry.h"
 #include <iostream>
 
-static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=14445;
+//static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=14445;
+static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=1234;
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
 
@@ -23,6 +24,7 @@ GroundTelemetry::GroundTelemetry() {
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
         onMessageAirPi(msg);
     });
+    std::cout<<"Created GroundTelemetry\n";
 }
 
 void GroundTelemetry::onMessageAirPi(MavlinkMessage& message) {
@@ -72,6 +74,7 @@ void GroundTelemetry::loopInfinite() {
         std::this_thread::sleep_for(std::chrono::seconds(3));
         auto test= createExampleMessageAttitude();
         sendMessageGroundStationClients(test);
+        std::cout<<"X\n";
     }
 }
 
