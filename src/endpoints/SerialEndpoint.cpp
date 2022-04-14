@@ -26,7 +26,7 @@ void SerialEndpoint::loopInfinite() {
     bool opened=false;
     while (!opened){
         try {
-            std::cerr << "Opening serial port: " << SERIAL_PORT << " baud: " << BAUD << std::endl;
+            std::cerr << "Opening serial port: " << SERIAL_PORT <<"\n";
             m_serial.open(SERIAL_PORT);
         } catch (boost::system::system_error::exception& e) {
             std::cerr <<"Failed to open serial port \n";
@@ -40,7 +40,7 @@ void SerialEndpoint::loopInfinite() {
             m_serial.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
             m_serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
         } catch (boost::system::system_error::exception& e) {
-            std::cerr <<"Faild to set serial port baud rate\n";
+            std::cerr <<"Faild to set serial port baud rate"<<BAUD<<"\n";
             m_serial.close();
             std::this_thread::sleep_for(RECONNECT_DELAY);
             continue;
@@ -70,8 +70,10 @@ void SerialEndpoint::handleRead(const boost::system::error_code& error,
                 onMessage(message);
             }
         }
+        startReceive();
+    }else{
+        std::cerr<<"SerialEndpoint::handleRead"<<error.message()<<"\n";
     }
-    startReceive();
 }
 
 void SerialEndpoint::handleWrite(const boost::system::error_code& error,
@@ -83,7 +85,7 @@ void SerialEndpoint::handleWrite(const boost::system::error_code& error,
 
 void SerialEndpoint::sendMessage(const MavlinkMessage &message) {
     if (!m_serial.is_open()) {
-        std::cerr << "SER: not open" << std::endl;
+        std::cout << "SER: not open\n";
         return;
     }
     const auto packed=message.pack();

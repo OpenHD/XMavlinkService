@@ -41,11 +41,11 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 }
 
 void GroundTelemetry::loopInfinite() {
-    /*TCPEndpoint tcpEndpoint; // can be QOpenHD, but must not be QOpenHD
-    tcpEndpoint.startLoopInfinite();
+    TCPEndpoint tcpEndpoint; // can be QOpenHD, but must not be QOpenHD
+    //tcpEndpoint.startLoopInfinite();
     for(int i=0;i<100;i++){
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(3));
         auto test= createExampleMessageAttitude();
         tcpEndpoint.sendMessageToAllClients(test);
-    }*/
+    }
 }

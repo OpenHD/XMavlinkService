@@ -7,7 +7,7 @@ static constexpr auto TAG="XMAVLINK_SERVICE";
 int main() {
     std::cout <<TAG<< "start" << std::endl;
 
-    const bool AIR= true;
+    const bool AIR= false;
     if(AIR){
         AirTelemetry airTelemetry{};
         std::cout <<TAG<< "air start" << std::endl;

@@ -22,16 +22,16 @@ public:
     /**
      * @param Port the port this server runs on
      */
-    explicit TCPEndpoint(int Port=1234):PORT(Port), _socket(_io_service){};
+    explicit TCPEndpoint(int Port=1234);
     // send message to all connected clients (for example QOpenHD)
     void sendMessageToAllClients(MavlinkMessage& message);
     // called every time this endpoint has received a new message
     void registerCallback(MAV_MSG_CALLBACK cb);
     // establish a connection to any client who wants to connect
     // process incoming messages
-    void loopInfinite();
+    //void loopInfinite();
     // start the infinite loop in its own thread
-    void startLoopInfinite();
+    //void startLoopInfinite();
 private:
     // parse new data as it comes in, extract mavlink messages and forward them on the appropriate callback
     void parseNewData(uint8_t* data, int data_len);
@@ -47,6 +47,11 @@ private:
     boost::asio::io_service _io_service;
     boost::asio::ip::tcp::socket _socket;
 private:
+    // try and allow client(s) to connect
+    void loopAllowConnection();
+    void startReceive();
+    void handleRead(const boost::system::error_code& error,
+                    size_t bytes_transferred);
 };
 
 
