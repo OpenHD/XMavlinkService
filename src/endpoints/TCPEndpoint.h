@@ -22,7 +22,7 @@ public:
     /**
      * @param Port the port this server runs on
      */
-    explicit TCPEndpoint(int Port=1234);
+    explicit TCPEndpoint(int Port);
     // send message to all connected clients (for example QOpenHD)
     void sendMessageToAllClients(MavlinkMessage& message);
     // called every time this endpoint has received a new message

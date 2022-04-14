@@ -5,6 +5,15 @@
 #include "GroundTelemetry.h"
 #include <iostream>
 
+static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=14445;
+static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
+static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
+
+GroundTelemetry::GroundTelemetry() {
+    tcpGroundCLient=std::make_unique<TCPEndpoint>(OHD_GROUND_CLIENT_TCP_PORT);
+    udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
+}
+
 void GroundTelemetry::onMessageAirPi(MavlinkMessage& message) {
     debugMavlinkMessage(message.m,"GroundTelemetry::onMessageAirPi");
     const auto& msg=message.m;
@@ -34,6 +43,12 @@ void GroundTelemetry::onMessageGroundStationClients(MavlinkMessage &message) {
 
 void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
     // forward via TCP or UDP
+    if(tcpGroundCLient){
+        tcpGroundCLient->sendMessageToAllClients(message);
+    }
+    if(udpGroundClient){
+        udpGroundClient->sendMessage(message);
+    }
 }
 
 void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
@@ -41,11 +56,10 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 }
 
 void GroundTelemetry::loopInfinite() {
-    TCPEndpoint tcpEndpoint; // can be QOpenHD, but must not be QOpenHD
-    //tcpEndpoint.startLoopInfinite();
-    for(int i=0;i<100;i++){
+    for(int i=0;i<10000000;i++){
         std::this_thread::sleep_for(std::chrono::seconds(3));
         auto test= createExampleMessageAttitude();
-        tcpEndpoint.sendMessageToAllClients(test);
+        sendMessageGroundStationClients(test);
     }
 }
+

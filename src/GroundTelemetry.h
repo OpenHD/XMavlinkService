@@ -8,9 +8,11 @@
 #include "Helper.hpp"
 #include "endpoints/TCPEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
+#include <memory>
 
 class GroundTelemetry {
 public:
+    explicit GroundTelemetry();
     // called every time a message from the air pi is received
     void onMessageAirPi(MavlinkMessage& message);
     // send a message to the air pi
@@ -26,6 +28,8 @@ public:
 private:
     // This endpoint goes out to the wifibroadcast tx/ rx instances
     //UDPEndpoint wifibroadcastEndpoint{};
+    std::unique_ptr<TCPEndpoint> tcpGroundCLient;
+    std::unique_ptr<UDPEndpoint> udpGroundClient;
 };
 
 

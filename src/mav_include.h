@@ -22,6 +22,7 @@ static constexpr auto OHD_SYS_ID_GROUND=100;
 static constexpr auto OHD_SYS_ID_AIR=101;
 static_assert(OHD_SYS_ID_GROUND!=OHD_SYS_ID_AIR);
 
+
 struct MavlinkMessage{
     mavlink_message_t m{};
     [[nodiscard]] std::vector<uint8_t> pack()const{
