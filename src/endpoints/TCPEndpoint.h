@@ -5,7 +5,7 @@
 #ifndef XMAVLINKSERVICE_TCPENDPOINT_H
 #define XMAVLINKSERVICE_TCPENDPOINT_H
 
-#include "Helper.hpp"
+#include "../Helper.hpp"
 #include <queue>
 #include <vector>
 #include <array>
@@ -46,6 +46,11 @@ private:
     //
     boost::asio::io_service _io_service;
     boost::asio::ip::tcp::socket _socket;
+private:
+    void handleRead(const boost::system::error_code& error,
+                    size_t bytes_transferred);
+    void handleWrite(const boost::system::error_code& error,
+                     size_t bytes_transferred);
 };
 
 

@@ -17,9 +17,14 @@ extern "C" {
 #ifdef __cplusplus
 }
 
+// OpenHD mavlink sys IDs
+static constexpr auto OHD_SYS_ID_GROUND=100;
+static constexpr auto OHD_SYS_ID_AIR=101;
+static_assert(OHD_SYS_ID_GROUND!=OHD_SYS_ID_AIR);
+
 struct MavlinkMessage{
     mavlink_message_t m{};
-    std::vector<uint8_t> pack(){
+    [[nodiscard]] std::vector<uint8_t> pack()const{
         std::vector<uint8_t> buf(MAVLINK_MAX_PACKET_LEN);
         auto size = mavlink_msg_to_send_buffer(buf.data(), &m);
         buf.resize(size);
@@ -27,21 +32,21 @@ struct MavlinkMessage{
     }
 };
 
-static MavlinkMessage createExampleMessage(){
+static MavlinkMessage createExampleMessageAttitude(){
     MavlinkMessage msg{};
     mavlink_msg_attitude_pack(0, 0, &msg.m,
             // time_boot_ms Timestamp (milliseconds since system boot)
                               0,
             // roll Roll angle (rad)
-                              10,
+                           0.18,
             // pitch Pitch angle (rad)
-                              10,
+                              0.3,
             // yaw Yaw angle (rad)
-                              10,
+                              0,
             // rollspeed Roll angular speed (rad/s)
                               0,
             // pitchspeed Pitch angular speed (rad/s)
-                              1,
+                              0.1,
             // yawspeed Yaw angular speed (rad/s)
                               0);
     return msg;

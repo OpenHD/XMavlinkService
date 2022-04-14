@@ -6,13 +6,14 @@
 #define OPENHD_TELEMETRY_AIRTELEMETRY_H
 
 #include "Helper.hpp"
-#include "UARTEndpoint.h"
+#include "endpoints/SerialEndpoint.h"
+#include "endpoints/UDPEndpoint.h"
 
 class AirTelemetry {
 public:
     // send a mavlink message to the flight controller connected to the air unit via UART
     void sendMessageFC(MavlinkMessage& message);
-    // called avery time a message from the flight controller bus is received
+    // called every time a message from the flight controller bus is received
     void onMessageFC(MavlinkMessage& message);
     // send a message to the ground pi
     void sendMessageGroundPi(MavlinkMessage& message);

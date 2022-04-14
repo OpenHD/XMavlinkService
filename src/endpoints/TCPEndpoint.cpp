@@ -11,7 +11,7 @@
 #include <boost/thread.hpp>
 #include <utility>
 
-#include "mav_include.h"
+#include "../mav_include.h"
 
 void TCPEndpoint::sendMessageToAllClients(MavlinkMessage &message) {
     debugMavlinkMessage(message.m,"TCPEndpoint::send");
@@ -95,4 +95,13 @@ void TCPEndpoint::parseNewData(uint8_t* data, int data_len) {
 void TCPEndpoint::startLoopInfinite() {
     boost::thread t1(&TCPEndpoint::loopInfinite, this);
     //loopInfinite();
+}
+
+
+void TCPEndpoint::handleRead(const boost::system::error_code &error, size_t bytes_transferred) {
+
+}
+
+void TCPEndpoint::handleWrite(const boost::system::error_code &error, size_t bytes_transferred) {
+
 }

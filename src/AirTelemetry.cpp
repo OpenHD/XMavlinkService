@@ -21,5 +21,9 @@ void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
 }
 
 void AirTelemetry::loopInfinite() {
-    //
+    SerialEndpoint serialEndpoint("/dev/ttyUSB0");
+    serialEndpoint.registerCallback([this](MavlinkMessage& msg){
+        this->onMessageFC(msg);
+    });
+    serialEndpoint.loopInfinite();
 }

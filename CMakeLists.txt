@@ -16,9 +16,9 @@ SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBR
 add_executable(XMavlinkService main.cpp
         src/AirTelemetry.cpp
         src/GroundTelemetry.cpp
-        src/UDPEndpoint.cpp
-        src/TCPEndpoint.cpp
-        src/UARTEndpoint.cpp)
+        src/endpoints/UDPEndpoint.cpp
+        src/endpoints/TCPEndpoint.cpp
+        src/endpoints/SerialEndpoint.cpp)
 
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})
