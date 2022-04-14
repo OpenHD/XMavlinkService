@@ -36,7 +36,6 @@ private:
     const int RECV_PORT;
     MAV_MSG_CALLBACK callback=nullptr;
     mavlink_status_t receiveMavlinkStatus{};
-    std::array<uint8_t,1024> readBuffer{};
 };
 
 
