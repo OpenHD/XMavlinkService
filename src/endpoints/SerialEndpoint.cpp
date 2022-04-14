@@ -16,6 +16,7 @@
 
 SerialEndpoint::SerialEndpoint(std::string serial_port):SERIAL_PORT(std::move(serial_port)),m_serial(io_service){
     //boost::thread t1(&SerialEndpoint::loopInfinite, this);
+    std::cout<<"SerialEndpoint created "<<serial_port<<"\n";
 }
 
 void SerialEndpoint::registerCallback(MAV_MSG_CALLBACK cb) {

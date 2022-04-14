@@ -8,6 +8,7 @@
 #include "Helper.hpp"
 #include "endpoints/TCPEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
+#include "endpoints/WBEndpoint.h"
 #include <memory>
 
 class GroundTelemetry {
@@ -30,6 +31,7 @@ private:
     //UDPEndpoint wifibroadcastEndpoint{};
     std::unique_ptr<TCPEndpoint> tcpGroundCLient;
     std::unique_ptr<UDPEndpoint> udpGroundClient;
+    std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
 };
 
 

@@ -31,6 +31,7 @@ public:
     void registerCallback(MAV_MSG_CALLBACK cb);
     //
     void loopInfinite();
+    static constexpr auto USB_SERIAL_PORT="/dev/ttyUSB0";
 private:
     // Async receive some data, when done (and no error occurred) this is called asynchronous again.
     void startReceive();

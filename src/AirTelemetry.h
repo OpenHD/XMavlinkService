@@ -8,9 +8,11 @@
 #include "Helper.hpp"
 #include "endpoints/SerialEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
+#include "endpoints/WBEndpoint.h"
 
 class AirTelemetry {
 public:
+    explicit AirTelemetry();
     // send a mavlink message to the flight controller connected to the air unit via UART
     void sendMessageFC(MavlinkMessage& message);
     // called every time a message from the flight controller bus is received
@@ -24,7 +26,8 @@ public:
     // This must NEVER crash
     void loopInfinite();
 private:
-    //UARTEndpoint flightController;
+    std::unique_ptr<SerialEndpoint> serialEndpoint;
+    std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
 };
 
 

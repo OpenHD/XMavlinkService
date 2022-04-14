@@ -28,6 +28,7 @@ public:
             receiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,RECV_PORT,cb);
             receiver->start();
         }
+        std::cout<<"UDPEndpoint created send:"<<senderPort<<" recv:"<<receiverPort<<"\n";
     }
     void sendMessage(MavlinkMessage& message);
     void registerCallback(MAV_MSG_CALLBACK cb);

@@ -11,7 +11,18 @@ static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
 
 GroundTelemetry::GroundTelemetry() {
     tcpGroundCLient=std::make_unique<TCPEndpoint>(OHD_GROUND_CLIENT_TCP_PORT);
+    tcpGroundCLient->registerCallback([this](MavlinkMessage& msg){
+        onMessageGroundStationClients(msg);
+    });
     udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
+    udpGroundClient->registerCallback([this](MavlinkMessage& msg){
+        onMessageGroundStationClients(msg);
+    });
+    // any message coming in via wifibroadcast is a message from the air pi
+    wifibroadcastEndpoint=std::make_unique<WBEndpoint>();
+    wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
+        onMessageAirPi(msg);
+    });
 }
 
 void GroundTelemetry::onMessageAirPi(MavlinkMessage& message) {
@@ -53,6 +64,7 @@ void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
 
 void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
     // transmit via wifibroadcast
+    wifibroadcastEndpoint->sendMessage(message);
 }
 
 void GroundTelemetry::loopInfinite() {
