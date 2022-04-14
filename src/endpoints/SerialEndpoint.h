@@ -9,6 +9,7 @@
 #include <boost/asio.hpp>
 #include <chrono>
 
+#include "MEndpoint.hpp"
 #include "../Helper.hpp"
 
 // UART endpoint

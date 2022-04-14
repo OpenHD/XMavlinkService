@@ -1,0 +1,60 @@
+//
+// Created by consti10 on 15.04.22.
+//
+
+#ifndef XMAVLINKSERVICE_MENDPOINT_H
+#define XMAVLINKSERVICE_MENDPOINT_H
+
+#include "../mav_include.h"
+#include <iostream>
+
+// Mavlink Endpoint
+// A Mavlink endpoint hides away the underlying connection - e.g. UART, TCP, UDP.
+// It MUST also hide away any problems that could exist with this endpoint - e.g. a disconnecting UART.
+// If (for example) in case of UART the connection is lost, it should just try to reconnect
+// and as soon as the connection has been re-established, continue working as if nothing happened.
+class MEndpoint{
+public:
+    explicit MEndpoint(std::string tag="MEndpoint"):TAG(std::move(tag)){};
+    /**
+     * send a message to this endpoint.
+     * If the endpoint is silently connected, this MUST NOT FAIL/CRASH
+     * @param message the message to send
+     */
+    virtual void sendMessage(const MavlinkMessage& message)=0;
+    /**
+     * register a callback that is called every time
+     * this endpoint has received a new message
+     * @param cb the callback function to register that is then called with a message every time a new full mavlink message has been parsed
+     */
+    void registerCallback(MAV_MSG_CALLBACK cb){
+        if(callback!= nullptr){
+            // this might be a common programming mistake - you can only register one callback here
+            std::cerr<<"Overwriting already existing callback\n";
+        }
+        callback=std::move(cb);
+    }
+protected:
+    MAV_MSG_CALLBACK callback=nullptr;
+    // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
+    void parseNewData(uint8_t* data, int data_len){
+        mavlink_message_t msg;
+        for(int i=0;i<data_len;i++){
+            uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
+            if (res) {
+                MavlinkMessage message{msg};
+                debugMavlinkMessage(message.m,TAG.c_str());
+                if(callback!= nullptr){
+                    callback(message);
+                }else{
+                    std::cerr<<"No callback set,did you forget to add it ?\n";
+                }
+            }
+        }
+    }
+private:
+    const std::string TAG;
+    mavlink_status_t receiveMavlinkStatus{};
+};
+
+#endif //XMAVLINKSERVICE_MENDPOINT_H
