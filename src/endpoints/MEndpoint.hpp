@@ -10,15 +10,22 @@
 
 // Mavlink Endpoint
 // A Mavlink endpoint hides away the underlying connection - e.g. UART, TCP, UDP.
+// It has a (implementation-specific) method to send a message (sendMessage) and (implementation-specific)
+// continuously forwards new incoming messages via a callback
 // It MUST also hide away any problems that could exist with this endpoint - e.g. a disconnecting UART.
 // If (for example) in case of UART the connection is lost, it should just try to reconnect
 // and as soon as the connection has been re-established, continue working as if nothing happened.
 class MEndpoint{
 public:
+    /**
+     * The implementation-specific constructor SHOULD try and establish a connection as soon as possible
+     * And re-establish the connection when disconnected.
+     * @param tag a tag for debugging.
+     */
     explicit MEndpoint(std::string tag="MEndpoint"):TAG(std::move(tag)){};
     /**
      * send a message to this endpoint.
-     * If the endpoint is silently connected, this MUST NOT FAIL/CRASH
+     * If the endpoint is silently disconnected, this MUST NOT FAIL/CRASH
      * @param message the message to send
      */
     virtual void sendMessage(const MavlinkMessage& message)=0;
@@ -37,7 +44,7 @@ public:
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
     // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
-    void parseNewData(uint8_t* data, int data_len){
+    void parseNewData(const uint8_t* data, int data_len){
         mavlink_message_t msg;
         for(int i=0;i<data_len;i++){
             uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);

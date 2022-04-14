@@ -30,7 +30,7 @@ void TCPEndpoint::loopAllowConnection(){
     //}
 }
 
-void TCPEndpoint::sendMessageToAllClients(MavlinkMessage &message) {
+void TCPEndpoint::sendMessage(const MavlinkMessage &message) {
     debugMavlinkMessage(message.m,"TCPEndpoint::send");
     try {
         if (!_socket.is_open()) {
@@ -58,35 +58,15 @@ void TCPEndpoint::startReceive() {
 
 void TCPEndpoint::handleRead(const boost::system::error_code &error, size_t bytes_transferred) {
     if (!error) {
-        parseNewData(readBuffer.data(),bytes_transferred);
+        MEndpoint::parseNewData(readBuffer.data(),bytes_transferred);
         startReceive();
     }else{
         std::cerr<<"SerialEndpoint::handleRead"<<error.message()<<"\n";
     }
 }
 
-void TCPEndpoint::onMessageAnyClient(MavlinkMessage &message) {
-    debugMavlinkMessage(message.m,"TCPEndpoint::receive");
-    if(callback!= nullptr){
-        callback(message);
-    }
-}
 
-void TCPEndpoint::registerCallback(MAV_MSG_CALLBACK cb) {
-    this->callback=std::move(cb);
-}
 
-void TCPEndpoint::parseNewData(uint8_t* data, int data_len) {
-    mavlink_message_t msg;
-    for(int i=0;i<data_len;i++){
-        uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
-        if (res) {
-            debugMavlinkMessage(msg,"TCPEndpoint::receive");
-            MavlinkMessage message{msg};
-            onMessageAnyClient(message);
-        }
-    }
-}
 
 
 

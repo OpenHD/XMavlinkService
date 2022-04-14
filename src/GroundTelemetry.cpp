@@ -57,7 +57,7 @@ void GroundTelemetry::onMessageGroundStationClients(MavlinkMessage &message) {
 void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
     // forward via TCP or UDP
     if(tcpGroundCLient){
-        tcpGroundCLient->sendMessageToAllClients(message);
+        tcpGroundCLient->sendMessage(message);
     }
     /*if(udpGroundClient){
         udpGroundClient->sendMessage(message);

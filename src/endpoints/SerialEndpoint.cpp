@@ -19,10 +19,6 @@ SerialEndpoint::SerialEndpoint(std::string serial_port):SERIAL_PORT(std::move(se
     std::cout<<"SerialEndpoint created "<<serial_port<<"\n";
 }
 
-void SerialEndpoint::registerCallback(MAV_MSG_CALLBACK cb) {
-    this->callback=cb;
-}
-
 void SerialEndpoint::loopInfinite() {
     bool opened=false;
     while (!opened){
@@ -63,7 +59,7 @@ void SerialEndpoint::startReceive() {
 void SerialEndpoint::handleRead(const boost::system::error_code& error,
                                 size_t bytes_transferred) {
     if (!error) {
-        parseNewData(readBuffer.data(),bytes_transferred);
+        MEndpoint::parseNewData(readBuffer.data(),bytes_transferred);
         startReceive();
     }else{
         std::cerr<<"SerialEndpoint::handleRead"<<error.message()<<"\n";
@@ -91,19 +87,6 @@ void SerialEndpoint::sendMessage(const MavlinkMessage &message) {
                                          boost::asio::placeholders::bytes_transferred));
 }
 
-void SerialEndpoint::parseNewData(uint8_t* data, int data_len) {
-    mavlink_message_t msg;
-    for(int i=0;i<data_len;i++){
-        uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
-        if (res) {
-            MavlinkMessage message{msg};
-            debugMavlinkMessage(message.m,"SerialEndpoint::parseNewData");
-            if(callback!= nullptr){
-                callback(message);
-            }
-        }
-    }
-}
 
 
 

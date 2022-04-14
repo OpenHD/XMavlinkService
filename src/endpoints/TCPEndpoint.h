@@ -6,6 +6,7 @@
 #define XMAVLINKSERVICE_TCPENDPOINT_H
 
 #include "../Helper.hpp"
+#include "MEndpoint.hpp"
 #include <queue>
 #include <vector>
 #include <array>
@@ -18,26 +19,16 @@
 // NOTE: This class purposefully hides away if a client is connected or not. If no client is connected, the
 // sendMessage call(s) just returns immediately.
 // However, this class will always allow a new client to (re)-connect while running.
-class TCPEndpoint {
+class TCPEndpoint: public MEndpoint{
 public:
     /**
      * @param Port the port this server runs on
      */
     explicit TCPEndpoint(int Port);
-    // send message to all connected clients (for example QOpenHD)
-    void sendMessageToAllClients(MavlinkMessage& message);
-    // called every time this endpoint has received a new message
-    void registerCallback(MAV_MSG_CALLBACK cb);
-private:
-    // parse new data as it comes in, extract mavlink messages and forward them on the appropriate callback
-    void parseNewData(uint8_t* data, int data_len);
-    // called every time a message from any client is received
-    void onMessageAnyClient(MavlinkMessage& message);
+    void sendMessage(const MavlinkMessage& message) override;
 private:
     // The port this server runs on
     const int PORT;
-    MAV_MSG_CALLBACK callback= nullptr;
-    mavlink_status_t receiveMavlinkStatus{};
     std::array<uint8_t,1024> readBuffer{};
     //
     boost::asio::io_service _io_service;

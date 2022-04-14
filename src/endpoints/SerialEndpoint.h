@@ -21,15 +21,13 @@
 // try to reconnect
 // 2) Handle no flight controller at all: Simple, just do nothing until a flight controller is connected
 
-class SerialEndpoint {
+class SerialEndpoint:public MEndpoint{
 public:
     /**
      * @param serial_port the serial port linux name (dev/.. ) for this serial port
      */
     explicit SerialEndpoint(std::string serial_port);
-    void sendMessage(const MavlinkMessage& message);
-    // called every time this endpoint has received a new message
-    void registerCallback(MAV_MSG_CALLBACK cb);
+    void sendMessage(const MavlinkMessage& message) override;
     //
     void loopInfinite();
     static constexpr auto USB_SERIAL_PORT="/dev/ttyUSB0";
@@ -40,9 +38,6 @@ private:
                     size_t bytes_transferred);
     void handleWrite(const boost::system::error_code& error,
                      size_t bytes_transferred);
-    // parse new data as it comes in, extract mavlink messages and forward them on the appropriate callback
-    void parseNewData(uint8_t* data, int data_len);
-    MAV_MSG_CALLBACK callback=nullptr;
     const std::string SERIAL_PORT;
     const int BAUD=5600;
     boost::asio::io_service io_service;
