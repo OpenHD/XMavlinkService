@@ -12,7 +12,7 @@
 // Mavlink Endpoint
 // A Mavlink endpoint hides away the underlying connection - e.g. UART, TCP, UDP.
 // It has a (implementation-specific) method to send a message (sendMessage) and (implementation-specific)
-// continuously forwards new incoming messages via a callback
+// continuously forwards new incoming messages via a callback.
 // It MUST also hide away any problems that could exist with this endpoint - e.g. a disconnecting UART.
 // If (for example) in case of UART the connection is lost, it should just try to reconnect
 // and as soon as the connection has been re-established, continue working as if nothing happened.
