@@ -38,7 +38,8 @@ private:
                     size_t bytes_transferred);
     void handleWrite(const boost::system::error_code& error,
                      size_t bytes_transferred);
-    void onMessage(MavlinkMessage& message);
+    // parse new data as it comes in, extract mavlink messages and forward them on the appropriate callback
+    void parseNewData(uint8_t* data, int data_len);
     MAV_MSG_CALLBACK callback=nullptr;
     const std::string SERIAL_PORT;
     const int BAUD=5600;

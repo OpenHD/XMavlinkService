@@ -27,11 +27,6 @@ public:
     void sendMessageToAllClients(MavlinkMessage& message);
     // called every time this endpoint has received a new message
     void registerCallback(MAV_MSG_CALLBACK cb);
-    // establish a connection to any client who wants to connect
-    // process incoming messages
-    //void loopInfinite();
-    // start the infinite loop in its own thread
-    //void startLoopInfinite();
 private:
     // parse new data as it comes in, extract mavlink messages and forward them on the appropriate callback
     void parseNewData(uint8_t* data, int data_len);
