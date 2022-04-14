@@ -27,6 +27,7 @@ void TCPEndpoint::sendMessageToAllClients(MavlinkMessage &message) {
 }
 
 void TCPEndpoint::onMessageAnyClient(MavlinkMessage &message) {
+    debugMavlinkMessage(message.m,"TCPEndpoint::receive");
     if(callback!= nullptr){
         callback(message);
     }

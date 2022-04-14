@@ -15,7 +15,7 @@
 // Multiple clients can connect to it.
 // Supports sending (mavlink) messages to all clients and receiving (mavlink) messages from all clients.
 // NOTE: This class purposefully hides away if a client is connected or not. If no client is connected, the
-// sendMessage call just returns immediately.
+// sendMessage call(s) just returns immediately.
 // However, this class will always allow a new client to (re)-connect while running.
 class TCPEndpoint {
 public:
