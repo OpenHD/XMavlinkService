@@ -6,19 +6,18 @@
 #define XMAVLINKSERVICE_WBENDPOINT_H
 
 #include "../Helper.hpp"
+#include "MEndpoint.hpp"
 #include <queue>
 #include <vector>
 #include <array>
 #include <boost/asio.hpp>
 
 // dummy for now, this is what handles the Wifibroadcast out/in
-class WBEndpoint {
+class WBEndpoint :public MEndpoint{
 public:
     explicit WBEndpoint();
-    void sendMessage(MavlinkMessage& message);
-    void registerCallback(MAV_MSG_CALLBACK cb);
+    void sendMessage(const MavlinkMessage& message) override;
 private:
-    MAV_MSG_CALLBACK callback= nullptr;
 };
 
 

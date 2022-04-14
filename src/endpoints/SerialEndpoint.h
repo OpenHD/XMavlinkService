@@ -42,7 +42,6 @@ private:
     const int BAUD=5600;
     boost::asio::io_service io_service;
     boost::asio::serial_port m_serial;
-    mavlink_status_t receiveMavlinkStatus{};
     std::array<uint8_t,1024> readBuffer{};
     static constexpr auto RECONNECT_DELAY=std::chrono::seconds(5);
 };

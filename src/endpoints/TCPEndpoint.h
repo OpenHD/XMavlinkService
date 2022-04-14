@@ -30,7 +30,6 @@ private:
     // The port this server runs on
     const int PORT;
     std::array<uint8_t,1024> readBuffer{};
-    //
     boost::asio::io_service _io_service;
     boost::asio::ip::tcp::socket _socket;
     boost::thread allowConnectionThread;

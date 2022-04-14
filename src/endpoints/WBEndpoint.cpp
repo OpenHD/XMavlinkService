@@ -8,12 +8,8 @@ WBEndpoint::WBEndpoint() {
     std::cout<<"WBEndpoint created\n";
 }
 
-void WBEndpoint::sendMessage(MavlinkMessage &message) {
+void WBEndpoint::sendMessage(const MavlinkMessage &message) {
 
-}
-
-void WBEndpoint::registerCallback(MAV_MSG_CALLBACK cb) {
-    this->callback=std::move(cb);
 }
 
 

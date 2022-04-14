@@ -22,7 +22,6 @@ private:
     std::unique_ptr<SocketHelper::UDPForwarder> transmitter;
     const int SEND_PORT;
     const int RECV_PORT;
-    mavlink_status_t receiveMavlinkStatus{};
 };
 
 
