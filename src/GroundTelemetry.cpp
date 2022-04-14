@@ -15,10 +15,10 @@ GroundTelemetry::GroundTelemetry() {
     tcpGroundCLient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
     });
-    udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
+    /*udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
     udpGroundClient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
-    });
+    });*/
     // any message coming in via wifibroadcast is a message from the air pi
     wifibroadcastEndpoint=std::make_unique<WBEndpoint>();
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
@@ -59,9 +59,9 @@ void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
     if(tcpGroundCLient){
         tcpGroundCLient->sendMessageToAllClients(message);
     }
-    if(udpGroundClient){
+    /*if(udpGroundClient){
         udpGroundClient->sendMessage(message);
-    }
+    }*/
 }
 
 void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {

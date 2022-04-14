@@ -14,7 +14,7 @@
 #include "../mav_include.h"
 
 TCPEndpoint::TCPEndpoint(int Port):PORT(Port), _socket(_io_service){
-    boost::thread t1(&TCPEndpoint::loopAllowConnection, this);
+    allowConnectionThread=boost::thread(&TCPEndpoint::loopAllowConnection, this);
     std::cout<<"TCPEndpoint created Port:"<<PORT<<"\n";
 };
 

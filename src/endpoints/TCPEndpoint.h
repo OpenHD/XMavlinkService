@@ -10,6 +10,7 @@
 #include <vector>
 #include <array>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 
 // Mavlink tcp endpoint (Server)
 // Multiple clients can connect to it.
@@ -41,6 +42,7 @@ private:
     //
     boost::asio::io_service _io_service;
     boost::asio::ip::tcp::socket _socket;
+    boost::thread allowConnectionThread;
 private:
     // try and allow client(s) to connect
     void loopAllowConnection();

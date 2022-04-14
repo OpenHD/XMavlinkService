@@ -30,7 +30,7 @@ private:
     // This endpoint goes out to the wifibroadcast tx/ rx instances
     //UDPEndpoint wifibroadcastEndpoint{};
     std::unique_ptr<TCPEndpoint> tcpGroundCLient;
-    std::unique_ptr<UDPEndpoint> udpGroundClient;
+    //std::unique_ptr<UDPEndpoint> udpGroundClient;
     std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
 };
 
