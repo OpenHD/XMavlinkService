@@ -4,9 +4,11 @@
 
 #include "GroundTelemetry.h"
 #include <iostream>
+#include "mav_helper.h"
 
 //static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=14445;
 static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=1234;
+
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
 
@@ -15,10 +17,10 @@ GroundTelemetry::GroundTelemetry() {
     tcpGroundCLient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
     });
-    /*udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
+    udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
     udpGroundClient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
-    });*/
+    });
     // any message coming in via wifibroadcast is a message from the air pi
     wifibroadcastEndpoint=std::make_unique<WBEndpoint>();
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
@@ -59,9 +61,9 @@ void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
     if(tcpGroundCLient){
         tcpGroundCLient->sendMessage(message);
     }
-    /*if(udpGroundClient){
+    if(udpGroundClient){
         udpGroundClient->sendMessage(message);
-    }*/
+    }
 }
 
 void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
@@ -72,8 +74,12 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 void GroundTelemetry::loopInfinite() {
     for(int i=0;i<10000000;i++){
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        auto test= createExampleMessageAttitude();
-        sendMessageGroundStationClients(test);
+        auto heartbeat=MExampleMessage::heartbeat();
+        sendMessageGroundStationClients(heartbeat);
+        auto attitude= MExampleMessage::attitude();
+        sendMessageGroundStationClients(attitude);
+        auto position=MExampleMessage::position();
+        sendMessageGroundStationClients(position);
         std::cout<<"X\n";
     }
 }

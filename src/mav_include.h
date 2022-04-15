@@ -33,26 +33,6 @@ struct MavlinkMessage{
     }
 };
 
-static MavlinkMessage createExampleMessageAttitude(){
-    MavlinkMessage msg{};
-    mavlink_msg_attitude_pack(0, 0, &msg.m,
-            // time_boot_ms Timestamp (milliseconds since system boot)
-                              0,
-            // roll Roll angle (rad)
-                           0.18,
-            // pitch Pitch angle (rad)
-                              0.3,
-            // yaw Yaw angle (rad)
-                              0,
-            // rollspeed Roll angular speed (rad/s)
-                              0,
-            // pitchspeed Pitch angular speed (rad/s)
-                              0.1,
-            // yawspeed Yaw angular speed (rad/s)
-                              0);
-    return msg;
-}
-
 static void debugMavlinkMessage(const mavlink_message_t& msg,const char* TAG){
     printf("%s message with ID %d, sequence: %d from component %d of system %d\n",TAG, msg.msgid, msg.seq, msg.compid, msg.sysid);
 }

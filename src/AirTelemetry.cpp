@@ -3,6 +3,7 @@
 //
 
 #include "AirTelemetry.h"
+#include "mav_helper.h"
 
 AirTelemetry::AirTelemetry() {
     serialEndpoint=std::make_unique<SerialEndpoint>(SerialEndpoint::USB_SERIAL_PORT);
@@ -38,7 +39,7 @@ void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
 void AirTelemetry::loopInfinite() {
     for(int i=0;i<10000000;i++){
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        auto test= createExampleMessageAttitude();
+        auto test= MExampleMessage::attitude();
         onMessageFC(test);
     }
 }
