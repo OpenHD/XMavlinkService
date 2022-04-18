@@ -49,10 +49,20 @@ public:
      bool isAlive(){
         return (std::chrono::steady_clock::now()-lastMessage).count()>std::chrono::seconds(5).count();
      }
+     /**
+      * Start broadcasting a heartbeat, some endpoints require this, some might not.
+      * @param sys_is
+      * @param comp_id
+      */
+     void startHeartBeat(int sys_is,int comp_id){
+         this->sys_id=sys_is;
+         this->comp_id=comp_id;
+     }
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
     // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
     void parseNewData(const uint8_t* data, int data_len){
+        std::cout<<TAG<<"parseNewData\n";
         mavlink_message_t msg;
         for(int i=0;i<data_len;i++){
             uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
@@ -72,6 +82,8 @@ private:
     const std::string TAG;
     mavlink_status_t receiveMavlinkStatus{};
     std::chrono::steady_clock::time_point lastMessage;
+    int sys_id;
+    int comp_id;
 };
 
 #endif //XMAVLINKSERVICE_MENDPOINT_H

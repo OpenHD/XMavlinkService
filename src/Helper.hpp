@@ -129,7 +129,9 @@ namespace SocketHelper {
             struct sockaddr_in myaddr;
             memset((uint8_t *) &myaddr, 0, sizeof(myaddr));
             myaddr.sin_family = AF_INET;
-            myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+            //myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+            // Consti10 - NO IDEA why you specifically need localhost here
+            myaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
             myaddr.sin_port = htons(client_udp_port);
             if (bind(mSocket, (struct sockaddr *) &myaddr, sizeof(myaddr)) == -1) {
                 std::cout<<"Error binding Port; "<<client_udp_port;
@@ -141,6 +143,7 @@ namespace SocketHelper {
             sockaddr_in source;
             socklen_t sourceLen= sizeof(sockaddr_in);
             while (receiving) {
+                std::cout<<"XRecv\n";
                 const ssize_t message_length = recvfrom(mSocket,buff->data(),UDP_PACKET_MAX_SIZE, MSG_WAITALL,(sockaddr*)&source,&sourceLen);
                 if (message_length > 0) {
                     mCb(buff->data(), (size_t)message_length);
@@ -158,6 +161,9 @@ namespace SocketHelper {
             receiverThread=std::thread([this](){
                 start();
             });
+        }
+        void xSendTo(){
+            //sendto
         }
         void stopBackground(){
             stop();
