@@ -12,6 +12,7 @@ extern "C" {
 #include <common/mavlink.h>
 #include <protocol.h>
 #include <mavlink_types.h>
+#include <openhd/mavlink.h>
 
 #ifdef __cplusplus
 }
