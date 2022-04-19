@@ -25,7 +25,7 @@ GroundTelemetry::GroundTelemetry() {
     // hacky, start breoadcasting the existence of the OHD ground station
     udpGroundClient->startHeartBeat(OHD_SYS_ID_GROUND,0);
     // any message coming in via wifibroadcast is a message from the air pi
-    wifibroadcastEndpoint=std::make_unique<WBEndpoint>();
+    wifibroadcastEndpoint=std::make_unique<WBEndpoint>(WBEndpoint::OHD_WB_LINK2_PORT,WBEndpoint::OHD_WB_LINK1_PORT);
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
         onMessageAirPi(msg);
     });
@@ -71,7 +71,9 @@ void GroundTelemetry::sendMessageGroundStationClients(MavlinkMessage& message) {
 
 void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
     // transmit via wifibroadcast
-    wifibroadcastEndpoint->sendMessage(message);
+    if(wifibroadcastEndpoint){
+        wifibroadcastEndpoint->sendMessage(message);
+    }
 }
 
 void GroundTelemetry::loopInfinite() {
@@ -79,10 +81,10 @@ void GroundTelemetry::loopInfinite() {
         std::this_thread::sleep_for(std::chrono::seconds(3));
         auto heartbeat=MExampleMessage::heartbeat();
         sendMessageGroundStationClients(heartbeat);
-        auto attitude= MExampleMessage::attitude();
+        /*auto attitude= MExampleMessage::attitude();
         sendMessageGroundStationClients(attitude);
         auto position=MExampleMessage::position();
-        sendMessageGroundStationClients(position);
+        sendMessageGroundStationClients(position);*/
         std::cout<<"X\n";
     }
 }

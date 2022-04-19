@@ -9,6 +9,7 @@
 #include "endpoints/TCPEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
 #include "endpoints/WBEndpoint.h"
+#include "endpoints/SerialEndpoint.h"
 #include <memory>
 
 /**

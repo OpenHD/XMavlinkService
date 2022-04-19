@@ -6,12 +6,12 @@
 #include "mav_helper.h"
 
 AirTelemetry::AirTelemetry() {
-    serialEndpoint=std::make_unique<SerialEndpoint>(SerialEndpoint::USB_SERIAL_PORT);
+    serialEndpoint=std::make_unique<SerialEndpoint>(SerialEndpoint::TEST_SERIAL_PORT);
     serialEndpoint->registerCallback([this](MavlinkMessage& msg){
         this->onMessageFC(msg);
     });
     // any message coming in via wifibroadcast is a message from the ground pi
-    wifibroadcastEndpoint=std::make_unique<WBEndpoint>();
+    wifibroadcastEndpoint=std::make_unique<WBEndpoint>(WBEndpoint::OHD_WB_LINK1_PORT,WBEndpoint::OHD_WB_LINK2_PORT);
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundPi(msg);
     });
@@ -37,10 +37,13 @@ void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
 }
 
 void AirTelemetry::loopInfinite() {
-    for(int i=0;i<10000000;i++){
+    while (true){
+        // send heartbeat to the ground pi - everything else is handled by the callbacks and their threads
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        auto test= MExampleMessage::attitude();
-        onMessageFC(test);
+        MavlinkMessage heartbeat;
+        mavlink_msg_heartbeat_pack(OHD_SYS_ID_AIR, 1, &heartbeat.m, MAV_TYPE_GENERIC, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+        sendMessageGroundPi(heartbeat);
+        std::cout<<"X\n";
     }
 }
 

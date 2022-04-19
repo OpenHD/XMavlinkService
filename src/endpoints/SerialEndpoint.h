@@ -7,7 +7,9 @@
 
 #include <utility>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <chrono>
+
 
 #include "MEndpoint.hpp"
 #include "../Helper.hpp"
@@ -29,9 +31,14 @@ public:
     explicit SerialEndpoint(std::string serial_port);
     void sendMessage(const MavlinkMessage& message) override;
     //
-    void loopInfinite();
     static constexpr auto USB_SERIAL_PORT="/dev/ttyUSB0";
+    static constexpr auto TEST_SERIAL_PORT="/dev/ttyACM0";
 private:
+    // If the serial port is still opened, close it
+    // after that, it should be openable again
+    void safeCloseCleanup();
+    // loops until the serial port has been opened successfully, then calls read
+    void safeRestart();
     // Async receive some data, when done (and no error occurred) this is called asynchronous again.
     void startReceive();
     void handleRead(const boost::system::error_code& error,
@@ -44,6 +51,9 @@ private:
     boost::asio::serial_port m_serial;
     std::array<uint8_t,1024> readBuffer{};
     static constexpr auto RECONNECT_DELAY=std::chrono::seconds(5);
+private:
+    std::unique_ptr<boost::thread> mIoThread;
+    std::unique_ptr<boost::thread> mOpenSerialPortThread;
 };
 
 

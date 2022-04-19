@@ -16,14 +16,22 @@
 
 SerialEndpoint::SerialEndpoint(std::string serial_port):SERIAL_PORT(std::move(serial_port)),m_serial(io_service){
     //boost::thread t1(&SerialEndpoint::loopInfinite, this);
-    std::cout<<"SerialEndpoint created "<<serial_port<<"\n";
+    std::cout<<"SerialEndpoint created "<<SERIAL_PORT<<"\n";
+    mOpenSerialPortThread = std::make_unique<boost::thread>([this] { safeRestart(); });
 }
 
-void SerialEndpoint::loopInfinite() {
+void SerialEndpoint::safeCloseCleanup() {
+    if(m_serial.is_open()){
+        m_serial.close();
+    }
+}
+
+
+void SerialEndpoint::safeRestart() {
     bool opened=false;
     while (!opened){
         try {
-            std::cerr << "Opening serial port: " << SERIAL_PORT <<"\n";
+            std::cout<< "Opening serial port: " << SERIAL_PORT <<"\n";
             m_serial.open(SERIAL_PORT);
         } catch (boost::system::system_error::exception& e) {
             std::cerr <<"Failed to open serial port \n";
@@ -31,11 +39,12 @@ void SerialEndpoint::loopInfinite() {
             continue;
         }
         try {
-            m_serial.set_option(boost::asio::serial_port_base::baud_rate(BAUD));
-            m_serial.set_option(boost::asio::serial_port_base::character_size(8));
+            //m_serial.set_option(boost::asio::serial_port_base::baud_rate(BAUD));
+            m_serial.set_option(boost::asio::serial_port_base::baud_rate(115200));
+            /*m_serial.set_option(boost::asio::serial_port_base::character_size(8));
             m_serial.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
             m_serial.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
-            m_serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
+            m_serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));*/
         } catch (boost::system::system_error::exception& e) {
             std::cerr <<"Faild to set serial port baud rate"<<BAUD<<"\n";
             m_serial.close();
@@ -44,11 +53,13 @@ void SerialEndpoint::loopInfinite() {
         }
         std::cout<<"Opened Serial, ready to read or write data\n";
         opened= true;
-        startReceive();
+        mIoThread=std::make_unique<boost::thread>(boost::bind(&boost::asio::io_service::run, &io_service));
     }
+    startReceive();
 }
 
 void SerialEndpoint::startReceive() {
+    //std::cout<<"SerialEndpoint::startReceive \n";
     m_serial.async_read_some(boost::asio::buffer(readBuffer.data(),readBuffer.size()),
                              boost::bind(&SerialEndpoint::handleRead,
                                          this,
@@ -59,10 +70,13 @@ void SerialEndpoint::startReceive() {
 void SerialEndpoint::handleRead(const boost::system::error_code& error,
                                 size_t bytes_transferred) {
     if (!error) {
+        //std::cout<<"SerialEndpoint::handleRead\n";
         MEndpoint::parseNewData(readBuffer.data(),bytes_transferred);
         startReceive();
     }else{
         std::cerr<<"SerialEndpoint::handleRead"<<error.message()<<"\n";
+        safeCloseCleanup();
+        safeRestart();
     }
 }
 
@@ -70,6 +84,8 @@ void SerialEndpoint::handleWrite(const boost::system::error_code& error,
                                  size_t bytes_transferred) {
     if(error){
         std::cerr<<"SerialEndpoint::handleWrite "<<error.message()<<"\n";
+        safeCloseCleanup();
+        safeRestart();
     }
 }
 
@@ -78,6 +94,7 @@ void SerialEndpoint::sendMessage(const MavlinkMessage &message) {
         std::cout << "SER: not open\n";
         return;
     }
+    std::cout<<"SerialEndpoint::sendMessage\n";
     const auto packed=message.pack();
     boost::asio::async_write(m_serial,
                              boost::asio::buffer(packed.data(),packed.size()),
@@ -86,7 +103,6 @@ void SerialEndpoint::sendMessage(const MavlinkMessage &message) {
                                          boost::asio::placeholders::error,
                                          boost::asio::placeholders::bytes_transferred));
 }
-
 
 
 
