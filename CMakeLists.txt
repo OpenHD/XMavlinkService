@@ -23,5 +23,10 @@ add_executable(XMavlinkService main.cpp
 
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})
-
 target_include_directories(XMavlinkService PUBLIC lib/c_library_v2)
+
+add_executable(SerialEndpointTest test_serial_endpoint.cpp
+        src/endpoints/SerialEndpoint.cpp)
+
+target_link_libraries(SerialEndpointTest ${USED_LIBS})
+target_include_directories(SerialEndpointTest PUBLIC lib/c_library_v2)
