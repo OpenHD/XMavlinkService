@@ -70,7 +70,7 @@ void SerialEndpoint::startReceive() {
 void SerialEndpoint::handleRead(const boost::system::error_code& error,
                                 size_t bytes_transferred) {
     if (!error) {
-        std::cout<<"SerialEndpoint::handleRead\n";
+        //std::cout<<"SerialEndpoint::handleRead\n";
         MEndpoint::parseNewData(readBuffer.data(),bytes_transferred);
         startReceive();
     }else{

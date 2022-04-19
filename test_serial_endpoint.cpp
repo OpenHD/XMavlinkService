@@ -1,5 +1,6 @@
 //
 // Created by consti10 on 19.04.22.
+// Executable to test the serial endpoint implementation
 //
 
 #include <iostream>
