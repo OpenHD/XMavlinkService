@@ -37,9 +37,8 @@ to the ground pi).
 Rn, there is only one way to connect either QOpenHD or QGroundControl to his module running on the ground pi -
 a bidirectional connection made up of 2 UDP ports.
 TODO: When QOpenHD / QGroundControl is not running on the ground station itself, but rather on another device (for example a
-smartphone connected to the ground pi, another difficulty arises from the necessity to route the messages over another
+smartphone connected to the ground pi), another difficulty arises from the necessity to route the messages over another
 network. For this, we probably should go with TCP, but the TCPEndpoint still needs some work.
-
 
 # Does this module need any settings / platform info:
 Well, the amount of needed options - so to say - will probably increase with added features.
