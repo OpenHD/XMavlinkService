@@ -5,4 +5,4 @@ Example for handling:
 reboot / shutdown commands
 
 Example for generating:
-CPU usage, current usage, ...
+CPU usage, current in ampere (from sensor or pi itself or ...)
