@@ -40,14 +40,13 @@ static void mavlink_test_openhd_system_telemetry(uint8_t system_id, uint8_t comp
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_openhd_system_telemetry_t packet_in = {
-        5,72,139,206
+        5,72,139
     };
     mavlink_openhd_system_telemetry_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
-        packet1.target_system = packet_in.target_system;
-        packet1.target_component = packet_in.target_component;
         packet1.cpuload = packet_in.cpuload;
-        packet1.temp = packet_in.temp;
+        packet1.temperature = packet_in.temperature;
+        packet1.reserved = packet_in.reserved;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -62,12 +61,12 @@ static void mavlink_test_openhd_system_telemetry(uint8_t system_id, uint8_t comp
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_system_telemetry_pack(system_id, component_id, &msg , packet1.target_system , packet1.target_component , packet1.cpuload , packet1.temp );
+    mavlink_msg_openhd_system_telemetry_pack(system_id, component_id, &msg , packet1.cpuload , packet1.temperature , packet1.reserved );
     mavlink_msg_openhd_system_telemetry_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_system_telemetry_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.target_component , packet1.cpuload , packet1.temp );
+    mavlink_msg_openhd_system_telemetry_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.cpuload , packet1.temperature , packet1.reserved );
     mavlink_msg_openhd_system_telemetry_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -80,7 +79,7 @@ static void mavlink_test_openhd_system_telemetry(uint8_t system_id, uint8_t comp
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_system_telemetry_send(MAVLINK_COMM_1 , packet1.target_system , packet1.target_component , packet1.cpuload , packet1.temp );
+    mavlink_msg_openhd_system_telemetry_send(MAVLINK_COMM_1 , packet1.cpuload , packet1.temperature , packet1.reserved );
     mavlink_msg_openhd_system_telemetry_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -102,12 +101,10 @@ static void mavlink_test_openhd_version_message(uint8_t system_id, uint8_t compo
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_openhd_version_message_t packet_in = {
-        5,72,"CDEFGHIJKLMNOPQRSTUVWXYZABCDE"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZABC"
     };
     mavlink_openhd_version_message_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
-        packet1.target_system = packet_in.target_system;
-        packet1.target_component = packet_in.target_component;
         
         mav_array_memcpy(packet1.version, packet_in.version, sizeof(char)*30);
         
@@ -123,12 +120,12 @@ static void mavlink_test_openhd_version_message(uint8_t system_id, uint8_t compo
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_version_message_pack(system_id, component_id, &msg , packet1.target_system , packet1.target_component , packet1.version );
+    mavlink_msg_openhd_version_message_pack(system_id, component_id, &msg , packet1.version );
     mavlink_msg_openhd_version_message_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_version_message_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.target_component , packet1.version );
+    mavlink_msg_openhd_version_message_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.version );
     mavlink_msg_openhd_version_message_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -141,7 +138,7 @@ static void mavlink_test_openhd_version_message(uint8_t system_id, uint8_t compo
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_openhd_version_message_send(MAVLINK_COMM_1 , packet1.target_system , packet1.target_component , packet1.version );
+    mavlink_msg_openhd_version_message_send(MAVLINK_COMM_1 , packet1.version );
     mavlink_msg_openhd_version_message_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 

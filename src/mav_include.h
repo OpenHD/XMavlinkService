@@ -13,6 +13,8 @@ extern "C" {
 #include <protocol.h>
 #include <mavlink_types.h>
 #include <openhd/mavlink.h>
+#include <openhd/mavlink_msg_openhd_system_telemetry.h>
+#include <openhd/mavlink_msg_openhd_version_message.h>
 
 #ifdef __cplusplus
 }

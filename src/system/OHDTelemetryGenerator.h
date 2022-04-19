@@ -13,8 +13,10 @@
 // telemetry values)
 class OHDTelemetryGenerator {
 public:
-    OHDTelemetryGenerator();
+    OHDTelemetryGenerator(bool runsOnAir=false);
     MavlinkMessage generateUpdate();
+private:
+    const bool RUNS_ON_AIR;
 };
 
 
