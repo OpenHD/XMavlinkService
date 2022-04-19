@@ -73,8 +73,6 @@ private:
     const std::string TAG;
     mavlink_status_t receiveMavlinkStatus{};
     std::chrono::steady_clock::time_point lastMessage;
-    int sys_id=0;
-    int comp_id=0;
 };
 
 #endif //XMAVLINKSERVICE_MENDPOINT_H

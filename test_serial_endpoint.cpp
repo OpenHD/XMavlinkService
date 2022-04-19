@@ -13,7 +13,7 @@ int main() {
     serialEndpoint.registerCallback([](MavlinkMessage& msg){
         debugMavlinkMessage(msg.m,"SerialTest");
     });
-    // now messages should come in. Try disconnecting and reconnecting, and see if messages continue
+    // now mavlink messages should come in. Try disconnecting and reconnecting, and see if messages continue
     std::this_thread::sleep_for(std::chrono::minutes (5));
     std::cout<< "SerialEndpointTest::end" << std::endl;
     return 0;
