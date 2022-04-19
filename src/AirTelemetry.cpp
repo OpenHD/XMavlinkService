@@ -43,7 +43,7 @@ void AirTelemetry::loopInfinite() {
         MavlinkMessage heartbeat;
         mavlink_msg_heartbeat_pack(OHD_SYS_ID_AIR, 1, &heartbeat.m, MAV_TYPE_GENERIC, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
         sendMessageGroundPi(heartbeat);
-        std::cout<<"X\n";
+        std::cout<<"AirTelemetry::loopInfinite()\n";
     }
 }
 

@@ -52,6 +52,16 @@ namespace MExampleMessage{
                                   0);
         return msg;
     }*/
+    /*
+    mavlink_message_t msg;
+        // values from QGroundControll
+        mavlink_msg_heartbeat_pack(sys_id,comp_id, &msg,MAV_TYPE_GENERIC,            // MAV_TYPE TODO figure out
+                                   MAV_AUTOPILOT_INVALID,   // MAV_AUTOPILOT
+                                   MAV_MODE_MANUAL_ARMED,   // MAV_MODE
+                                   0,                       // custom mode
+                                   MAV_STATE_ACTIVE);       // MAV_STATE
+        sendMessage({msg});
+     */
 }
 
 

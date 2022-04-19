@@ -49,33 +49,18 @@ public:
      bool isAlive(){
         return (std::chrono::steady_clock::now()-lastMessage).count()>std::chrono::seconds(5).count();
      }
-     /**
-      * Start broadcasting a heartbeat in a reqular interval, some endpoints require this, some might not.
-      * @param sys_is
-      * @param comp_id
-      */
-     void startHeartBeat(int sys_is,int comp_id){
-         this->sys_id=sys_is;
-         this->comp_id=comp_id;
-         mHeartbeatThread=std::make_unique<std::thread>([this](){
-             while (true){
-                 std::this_thread::sleep_for(std::chrono::seconds(1));
-                 onHeartBeat();
-             }
-         });
-     }
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
     // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
     void parseNewData(const uint8_t* data, int data_len){
-        std::cout<<TAG<<"parseNewData\n";
+        //std::cout<<TAG<<"parseNewData\n";
         mavlink_message_t msg;
         for(int i=0;i<data_len;i++){
             uint8_t res = mavlink_parse_char(MAVLINK_COMM_0, (uint8_t)data[i], &msg, &receiveMavlinkStatus);
             if (res) {
                 lastMessage=std::chrono::steady_clock::now();
                 MavlinkMessage message{msg};
-                debugMavlinkMessage(message.m,TAG.c_str());
+                //debugMavlinkMessage(message.m,TAG.c_str());
                 if(callback!= nullptr){
                     callback(message);
                 }else{
@@ -90,19 +75,6 @@ private:
     std::chrono::steady_clock::time_point lastMessage;
     int sys_id=0;
     int comp_id=0;
-private:
-    std::unique_ptr<std::thread> mHeartbeatThread;
-    void onHeartBeat(){
-        std::cout<<TAG<<" heartbeat\n";
-        mavlink_message_t msg;
-        // values from QGroundControll
-        mavlink_msg_heartbeat_pack(sys_id,comp_id, &msg,MAV_TYPE_GENERIC,            // MAV_TYPE TODO figure out
-                                   MAV_AUTOPILOT_INVALID,   // MAV_AUTOPILOT
-                                   MAV_MODE_MANUAL_ARMED,   // MAV_MODE
-                                   0,                       // custom mode
-                                   MAV_STATE_ACTIVE);       // MAV_STATE
-        sendMessage({msg});
-    }
 };
 
 #endif //XMAVLINKSERVICE_MENDPOINT_H
