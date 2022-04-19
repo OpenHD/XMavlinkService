@@ -40,6 +40,11 @@ TODO: When QOpenHD / QGroundControl is not running on the ground station itself,
 smartphone connected to the ground pi), another difficulty arises from the necessity to route the messages over another
 network. For this, we probably should go with TCP, but the TCPEndpoint still needs some work.
 
+# Destination sys IDs
+(Telemetry) Messages that only need to make their way from either the FC, the air pi or the ground pi 
+to the Ground clients (QOpenHD, QGroundControll) don't need a target sys id - they are routed through
+as long as they go in direction towards the ground pi.
+
 # Does this module need any settings / platform info:
 Well, the amount of needed options - so to say - will probably increase with added features.
 So far there are:
