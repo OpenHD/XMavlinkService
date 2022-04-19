@@ -20,7 +20,7 @@ add_executable(XMavlinkService main.cpp
         src/endpoints/TCPEndpoint.cpp
         src/endpoints/SerialEndpoint.cpp
         src/endpoints/WBEndpoint.cpp
-        src/power/OHDTelemetryGenerator.cpp)
+        src/system/OHDTelemetryGenerator.cpp)
 
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})

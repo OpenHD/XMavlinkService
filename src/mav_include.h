@@ -13,9 +13,11 @@ extern "C" {
 #include <protocol.h>
 #include <mavlink_types.h>
 
-
 #ifdef __cplusplus
 }
+
+#include <vector>
+#include <functional>
 
 // OpenHD mavlink sys IDs
 static constexpr auto OHD_SYS_ID_GROUND=100;
