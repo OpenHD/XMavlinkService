@@ -4,3 +4,8 @@
 [submodule "lib/c_library_v2"]
 	path = lib/c_library_v2
 	url = git@github.com:mavlink/c_library_v2.git
+
+[submodule "lib2/mavlink"]
+	path = lib2/mavlink
+	url = git@github.com:OpenHD/mavlink.git
+	branch = xopenhd
