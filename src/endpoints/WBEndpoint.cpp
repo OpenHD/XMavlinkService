@@ -31,4 +31,8 @@ void WBEndpoint::sendMessage(const MavlinkMessage &message) {
     }
 }
 
+std::unique_ptr<WBEndpoint> WBEndpoint::createWbEndpointOHD(bool isAir) {
+    return std::make_unique<WBEndpoint>(0,1);
+}
+
 

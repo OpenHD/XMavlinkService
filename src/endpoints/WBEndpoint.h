@@ -9,6 +9,7 @@
 #include "MEndpoint.hpp"
 //#include "wb_include.h"
 #include <thread>
+#include <memory>
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
 class WBEndpoint :public MEndpoint{
@@ -30,6 +31,7 @@ public:
     static constexpr auto OHD_WB_RADIO_PORT_AIR_GROUND=10;
     // same for ground to air
     static constexpr auto OHD_WB_RADIO_PORT_GROUND_AIR=11;
+    static std::unique_ptr<WBEndpoint> createWbEndpointOHD(bool isAir);
 };
 
 
