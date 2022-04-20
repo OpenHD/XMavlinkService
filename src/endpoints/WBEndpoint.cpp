@@ -20,6 +20,18 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
         wbTransmitter=std::make_unique<WBTransmitter>(radiotapHeader,tOptions);
         std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
     }
+    /*{
+        ROptions rOptions{};
+        rOptions.radio_port=rxRadioPort;
+        rOptions.keypair=std::nullopt;
+        wbReceiver=std::make_shared<WBReceiver>(rOptions,[this](const uint8_t* payload,const std::size_t payloadSize){
+            parseNewData(payload,payloadSize);
+        });
+        MultiRxPcapReceiver receiver(rxInterfaces,options.radio_port,log_interval,
+                                     notstd::bind_front(&WBReceiver::processPacket, agg.get()),
+                                     notstd::bind_front(&WBReceiver::dump_stats, agg.get()));
+        receiver.loop();
+    }*/
 }
 
 void WBEndpoint::sendMessage(const MavlinkMessage &message) {
@@ -29,6 +41,10 @@ void WBEndpoint::sendMessage(const MavlinkMessage &message) {
     }else{
         std::cerr<<"WBEndpoint::sendMessage with no transmitter\n";
     }*/
+    if(wbTransmitter!= nullptr){
+        const auto data=message.pack();
+        wbTransmitter->feedPacket(data.data(),data.size());
+    }
 }
 
 std::unique_ptr<WBEndpoint> WBEndpoint::createWbEndpointOHD(const bool isAir) {
