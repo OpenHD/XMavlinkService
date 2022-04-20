@@ -34,9 +34,9 @@ public:
     //static constexpr auto OHD_WB_LINK2_PORT=7001;
 public:
     // the link id for data from air to ground
-    static constexpr auto OHD_WB_RADIO_PORT_AIR_TO_GROUND=10;
+    static constexpr int OHD_WB_RADIO_PORT_AIR_TO_GROUND=10;
     // same for ground to air
-    static constexpr auto OHD_WB_RADIO_PORT_GROUND_TO_AIR=11;
+    static constexpr int OHD_WB_RADIO_PORT_GROUND_TO_AIR=11;
     static std::unique_ptr<WBEndpoint> createWbEndpointOHD(bool isAir);
 };
 

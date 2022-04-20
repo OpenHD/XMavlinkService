@@ -9,7 +9,17 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
     if(txRadioPort==rxRadioPort){
         throw std::runtime_error("WBEndpoint - cannot send and receive on same radio port\n");
     }
-    std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
+    {
+        TOptions tOptions{};
+        tOptions.keypair=std::nullopt;
+        tOptions.fec_k=0;
+        tOptions.radio_port=txRadioPort;
+        tOptions.wlan="todo";
+        RadiotapHeader::UserSelectableParams wifiParams{20, false, 0, false, 1};
+        RadiotapHeader radiotapHeader{wifiParams};
+        wbTransmitter=std::make_unique<WBTransmitter>(radiotapHeader,tOptions);
+        std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
+    }
 }
 
 void WBEndpoint::sendMessage(const MavlinkMessage &message) {
