@@ -11,10 +11,10 @@ AirTelemetry::AirTelemetry() {
         this->onMessageFC(msg);
     });
     // any message coming in via wifibroadcast is a message from the ground pi
-    wifibroadcastEndpoint=std::make_unique<WBEndpoint>(WBEndpoint::OHD_WB_LINK1_PORT,WBEndpoint::OHD_WB_LINK2_PORT);
-    wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
-        onMessageGroundPi(msg);
-    });
+    //wifibroadcastEndpoint=std::make_unique<WBEndpoint>(WBEndpoint::OHD_WB_LINK1_PORT,WBEndpoint::OHD_WB_LINK2_PORT);
+    //wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
+    //    onMessageGroundPi(msg);
+    //});
 }
 
 void AirTelemetry::sendMessageFC(MavlinkMessage& message) {

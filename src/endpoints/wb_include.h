@@ -7,6 +7,6 @@
 
 // Include this file instead of including anything from wifibroadcast directly, the build setup will probably change
 #include "../../lib/wifibroadcast/src/WBReceiver.h"
-#include "../../lib/wifibroadcast/src/WBReceiver.h"
+#include "../../lib/wifibroadcast/src/WBTransmitter.h"
 
 #endif //XMAVLINKSERVICE_WB_INCLUDE_H

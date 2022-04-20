@@ -7,30 +7,36 @@
 
 #include "Helper.hpp"
 #include "MEndpoint.hpp"
-//#include "wb_include.h"
+#include "wb_include.h"
 #include <thread>
 #include <memory>
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
 class WBEndpoint :public MEndpoint{
 public:
-    explicit WBEndpoint(const int senderPort,const int receiverPort);
+    /**
+     * Uses 2 wifibroadcast instances (one for rx, one for tx)
+     * to transmit and receive telemetry data.
+     * @param txRadioPort the radio port of the tx instance
+     * @param rxRadioPort the radio port of the rx instance.
+     */
+    explicit WBEndpoint(int txRadioPort,int rxRadioPort);
     void sendMessage(const MavlinkMessage& message) override;
 private:
-private:
-    std::unique_ptr<SocketHelper::UDPReceiver> receiver;
-    std::unique_ptr<SocketHelper::UDPForwarder> transmitter;
-    const int SEND_PORT;
-    const int RECV_PORT;
+    const int txRadioPort;
+    const int rxRadioPort;
+    std::unique_ptr<WBTransmitter> wbTransmitter;
+    std::unique_ptr<WBReceiver> wbReceiver;
 public:
     // Air sends data to this port, ground receives data on this port
-    static constexpr auto OHD_WB_LINK1_PORT=7000;
+    //static constexpr auto OHD_WB_LINK1_PORT=7000;
     // Air receives data on this port, ground sends data on this port
-    static constexpr auto OHD_WB_LINK2_PORT=7001;
+    //static constexpr auto OHD_WB_LINK2_PORT=7001;
+public:
     // the link id for data from air to ground
-    static constexpr auto OHD_WB_RADIO_PORT_AIR_GROUND=10;
+    static constexpr auto OHD_WB_RADIO_PORT_AIR_TO_GROUND=10;
     // same for ground to air
-    static constexpr auto OHD_WB_RADIO_PORT_GROUND_AIR=11;
+    static constexpr auto OHD_WB_RADIO_PORT_GROUND_TO_AIR=11;
     static std::unique_ptr<WBEndpoint> createWbEndpointOHD(bool isAir);
 };
 
