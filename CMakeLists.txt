@@ -4,7 +4,7 @@ project(XMavlinkService)
 set(CMAKE_CXX_STANDARD 17)
 
 # Build and include wifibroadcast
-#include(lib/wifibroadcast/W)
+include(lib/wifibroadcast/WBLib.cmake)
 
 # from https://github.com/alexott/boost-asio-examples/blob/master/CMakeLists.txt
 SET(Boost_USE_STATIC_LIBS OFF)
