@@ -7,7 +7,7 @@
 
 #include "Helper.hpp"
 #include "MEndpoint.hpp"
-#include "wb_include.h"
+//#include "wb_include.h"
 #include <thread>
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
@@ -26,6 +26,10 @@ public:
     static constexpr auto OHD_WB_LINK1_PORT=7000;
     // Air receives data on this port, ground sends data on this port
     static constexpr auto OHD_WB_LINK2_PORT=7001;
+    // the link id for data from air to ground
+    static constexpr auto OHD_WB_RADIO_PORT_AIR_GROUND=10;
+    // same for ground to air
+    static constexpr auto OHD_WB_RADIO_PORT_GROUND_AIR=11;
 };
 
 
