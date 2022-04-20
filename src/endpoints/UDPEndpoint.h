@@ -5,7 +5,7 @@
 #ifndef XMAVLINKSERVICE_UDPENDPOINT_H
 #define XMAVLINKSERVICE_UDPENDPOINT_H
 
-#include "../Helper.hpp"
+#include "Helper.hpp"
 #include "MEndpoint.hpp"
 #include <thread>
 

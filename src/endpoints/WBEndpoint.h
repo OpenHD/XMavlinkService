@@ -5,8 +5,9 @@
 #ifndef XMAVLINKSERVICE_WBENDPOINT_H
 #define XMAVLINKSERVICE_WBENDPOINT_H
 
-#include "../Helper.hpp"
+#include "Helper.hpp"
 #include "MEndpoint.hpp"
+#include "wb_include.h"
 #include <thread>
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.

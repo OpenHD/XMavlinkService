@@ -12,7 +12,7 @@
 
 
 #include "MEndpoint.hpp"
-#include "../Helper.hpp"
+#include "Helper.hpp"
 
 // UART endpoint
 // Supports sending (mavlink) messages to the connected UART device (aka the flight controller)
