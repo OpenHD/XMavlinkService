@@ -53,6 +53,9 @@ public:
      bool isAlive(){
         return (std::chrono::steady_clock::now()-lastMessage)<std::chrono::seconds(5);
      }
+     /**
+      * For debugging, print if this endpoint is alive (an endpoint is alive if it has received mavlink messages in the last X seconds).
+      */
      void debugIfAlive(){
          std::cout<<TAG<<" alive:"<<(isAlive() ? "Y":"N")<<"\n";
      }
