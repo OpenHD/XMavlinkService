@@ -94,7 +94,7 @@ void SerialEndpoint::sendMessage(const MavlinkMessage &message) {
         std::cout << "SER: not open\n";
         return;
     }
-    std::cout<<"SerialEndpoint::sendMessage\n";
+    //std::cout<<"SerialEndpoint::sendMessage\n";
     const auto packed=message.pack();
     boost::asio::async_write(m_serial,
                              boost::asio::buffer(packed.data(),packed.size()),

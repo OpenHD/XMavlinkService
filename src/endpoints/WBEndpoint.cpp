@@ -61,16 +61,18 @@ void WBEndpoint::sendMessage(const MavlinkMessage &message) {
 
 std::unique_ptr<WBEndpoint> WBEndpoint::createWbEndpointOHD(const bool isAir) {
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
+    const std::string tag=std::string("WBEndpoint-Emu").append(isAir ? "A":"G");
     if(isAir){
-        return std::make_unique<WBEndpoint>("WBEndpoint-Emu",OHD_EMULATE_WB_LINK1_PORT,OHD_EMULATE_WB_LINK2_PORT);
+        return std::make_unique<WBEndpoint>(tag,OHD_EMULATE_WB_LINK1_PORT,OHD_EMULATE_WB_LINK2_PORT);
     }else{
-        return std::make_unique<WBEndpoint>("WBEndpoint-Emu",OHD_EMULATE_WB_LINK2_PORT,OHD_EMULATE_WB_LINK1_PORT);
+        return std::make_unique<WBEndpoint>(tag,OHD_EMULATE_WB_LINK2_PORT,OHD_EMULATE_WB_LINK1_PORT);
     }
 #else
+    const std::string tag=std::string("WBEndpoint").append(isAir ? "A":"G");
     if(isAir){
-        return std::make_unique<WBEndpoint>("WBEndpoint",OHD_WB_RADIO_PORT_AIR_TO_GROUND,OHD_WB_RADIO_PORT_GROUND_TO_AIR);
+        return std::make_unique<WBEndpoint>(tag,OHD_WB_RADIO_PORT_AIR_TO_GROUND,OHD_WB_RADIO_PORT_GROUND_TO_AIR);
     }else{
-        return std::make_unique<WBEndpoint>("WBEndpoint",OHD_WB_RADIO_PORT_GROUND_TO_AIR,OHD_WB_RADIO_PORT_AIR_TO_GROUND);
+        return std::make_unique<WBEndpoint>(tag,OHD_WB_RADIO_PORT_GROUND_TO_AIR,OHD_WB_RADIO_PORT_AIR_TO_GROUND);
     }
 #endif
 }
