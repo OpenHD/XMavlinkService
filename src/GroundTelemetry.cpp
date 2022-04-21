@@ -78,6 +78,13 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 
 void GroundTelemetry::loopInfinite() {
     while (true){
+        // for debugging, check if any of the endpoints is not alive
+        if(wifibroadcastEndpoint && !wifibroadcastEndpoint->isAlive()){
+            std::cout<<"WBEndpoint not alive\n";
+        }
+        if(udpGroundClient && !udpGroundClient->isAlive()){
+            std::cout<<"UDPGroundEndpoint not alive\n";
+        }
         // Broadcast existence of OpenHD ground station to all connected clients
         // (for example QOpenHD)
         // everything else is handled by the callbacks and their threads

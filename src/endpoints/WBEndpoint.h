@@ -12,6 +12,8 @@
 #include <thread>
 #include <memory>
 
+#define EMULATE_WIFIBROADCAST_CONNECTION
+
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
 class WBEndpoint :public MEndpoint{
 public:
@@ -31,12 +33,12 @@ private:
     std::unique_ptr<std::thread> receiverThread;
     // For debugging without a wifi card, I use UDPEndpoint as a alternative
     // to wifibroadcast.
+#ifdef EMULATE_WIFIBROADCAST_CONNECTION
     std::unique_ptr<UDPEndpoint> emulateWifibroadcastUdpEndpoint;
+    static constexpr auto OHD_EMULATE_WB_LINK1_PORT=7000;
+    static constexpr auto OHD_EMULATE_WB_LINK2_PORT=7001;
+#endif
 public:
-    // Air sends data to this port, ground receives data on this port
-    //static constexpr auto OHD_WB_LINK1_PORT=7000;
-    // Air receives data on this port, ground sends data on this port
-    //static constexpr auto OHD_WB_LINK2_PORT=7001;
 public:
     // the link id for data from air to ground
     static constexpr int OHD_WB_RADIO_PORT_AIR_TO_GROUND=10;

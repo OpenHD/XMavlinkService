@@ -75,7 +75,7 @@ protected:
 private:
     const std::string TAG;
     mavlink_status_t receiveMavlinkStatus{};
-    std::chrono::steady_clock::time_point lastMessage;
+    std::chrono::steady_clock::time_point lastMessage{};
 };
 
 #endif //XMAVLINKSERVICE_MENDPOINT_H
