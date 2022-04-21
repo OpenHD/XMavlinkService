@@ -9,7 +9,7 @@
 
 // The purpose of this class is to generate all the OpenHD specific telemetry that can be sent
 // in a fire and forget manner. For example, to report the CPU usage on the air station,
-// one can read out the cpu usage in regular intervalls and send it out (perhaps together with other
+// one can read out the cpu usage in regular intervals and send it out (perhaps together with other
 // telemetry values)
 class OHDTelemetryGenerator {
 public:

@@ -32,6 +32,7 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
                                      notstd::bind_front(&WBReceiver::dump_stats, agg.get()));
         receiver.loop();
     }*/
+
 }
 
 void WBEndpoint::sendMessage(const MavlinkMessage &message) {
