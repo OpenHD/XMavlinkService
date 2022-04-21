@@ -5,7 +5,7 @@
 #ifndef XMAVLINKSERVICE_WBENDPOINT_H
 #define XMAVLINKSERVICE_WBENDPOINT_H
 
-#include "Helper.hpp"
+#include "SocketHelper.hpp"
 #include "MEndpoint.hpp"
 #include "wb_include.h"
 #include "UDPEndpoint.h"
