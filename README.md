@@ -39,6 +39,7 @@ a bidirectional connection made up of 2 UDP ports.
 TODO: When QOpenHD / QGroundControl is not running on the ground station itself, but rather on another device (for example a
 smartphone connected to the ground pi), another difficulty arises from the necessity to route the messages over another
 network. For this, we probably should go with TCP, but the TCPEndpoint still needs some work.
+The corresponding endpoint in QOpenHD can be found here: https://github.com/OpenHD/QOpenHD/blob/consti-test/app/telemetry/OHDConnection.h
 
 # Destination sys IDs
 (Telemetry) Messages that only need to make their way from either the FC, the air pi or the ground pi 
