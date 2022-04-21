@@ -31,7 +31,7 @@ private:
     std::unique_ptr<std::thread> receiverThread;
     // For debugging without a wifi card, I use UDPEndpoint as a alternative
     // to wifibroadcast.
-    std::unique_ptr<UDPEndpoint> emulatWifibroadcastUdpEndpoint;
+    std::unique_ptr<UDPEndpoint> emulateWifibroadcastUdpEndpoint;
 public:
     // Air sends data to this port, ground receives data on this port
     //static constexpr auto OHD_WB_LINK1_PORT=7000;
