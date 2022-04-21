@@ -15,7 +15,7 @@ namespace MExampleMessage{
     }
     static MavlinkMessage heartbeat(){
         MavlinkMessage msg{};
-        mavlink_msg_heartbeat_pack(1, 200, &msg.m, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+        mavlink_msg_heartbeat_pack(10, 200, &msg.m, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
         return msg;
     }
     static MavlinkMessage position(){

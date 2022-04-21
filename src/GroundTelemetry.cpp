@@ -33,14 +33,12 @@ GroundTelemetry::GroundTelemetry() {
 }
 
 void GroundTelemetry::onMessageAirPi(MavlinkMessage& message) {
-    debugMavlinkMessage(message.m,"GroundTelemetry::onMessageAirPi");
+    //debugMavlinkMessage(message.m,"GroundTelemetry::onMessageAirPi");
     const auto& msg=message.m;
-    /*if(msg.sysid==OHD_SYS_ID_GROUND){
-        // handle locally
-    }else{
-        // forward to the ground clients like QOpenHD
-        sendMessageGroundStationClients(message);
-    }*/
+    // we do not need to forward heartbeat messages coming from the air telemetry service
+    if(msg.msgid==MAVLINK_MSG_ID_HEARTBEAT && msg.sysid==OHD_SYS_ID_AIR){
+        return;
+    }
     // for now, forward everything
     sendMessageGroundStationClients(message);
 }

@@ -33,7 +33,12 @@ void AirTelemetry::sendMessageGroundPi(MavlinkMessage& message) {
 }
 
 void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
-    // for now, forward everything to the flight controller
+    const mavlink_message_t& m=message.m;
+    // we do not need to forward heartbeat messages coming from the ground telemetry service
+    if(m.msgid==MAVLINK_MSG_ID_HEARTBEAT && m.sysid==OHD_SYS_ID_GROUND){
+        return;
+    }
+    // for now, do it as simple as possible
     sendMessageFC(message);
 }
 

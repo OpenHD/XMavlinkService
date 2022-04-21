@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "../src/endpoints/SerialEndpoint.h"
+#include "../src/mav_helper.h"
 
 int main() {
     std::cout<< "SerialEndpointTest::start" << std::endl;
@@ -17,6 +18,8 @@ int main() {
     const auto start=std::chrono::steady_clock::now();
     while ((std::chrono::steady_clock::now()-start)<std::chrono::minutes(5)){
         serialEndpoint.debugIfAlive();
+        auto msg=MExampleMessage::heartbeat();
+        serialEndpoint.sendMessage(msg);
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     std::cout<< "SerialEndpointTest::end" << std::endl;
