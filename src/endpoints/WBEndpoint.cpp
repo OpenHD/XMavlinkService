@@ -20,18 +20,18 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
         wbTransmitter=std::make_unique<WBTransmitter>(radiotapHeader,tOptions);
         std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
     }
-    /*{
+    {
         ROptions rOptions{};
         rOptions.radio_port=rxRadioPort;
         rOptions.keypair=std::nullopt;
-        wbReceiver=std::make_shared<WBReceiver>(rOptions,[this](const uint8_t* payload,const std::size_t payloadSize){
+        rOptions.rxInterfaces.push_back("todo");
+        wbReceiver=std::make_unique<WBReceiver>(rOptions,[this](const uint8_t* payload,const std::size_t payloadSize){
             parseNewData(payload,payloadSize);
         });
-        MultiRxPcapReceiver receiver(rxInterfaces,options.radio_port,log_interval,
-                                     notstd::bind_front(&WBReceiver::processPacket, agg.get()),
-                                     notstd::bind_front(&WBReceiver::dump_stats, agg.get()));
-        receiver.loop();
-    }*/
+        receiverThread=std::make_unique<std::thread>([this](){
+            wbReceiver->loop();
+        });
+    }
 
 }
 

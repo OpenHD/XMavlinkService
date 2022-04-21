@@ -3,6 +3,10 @@ project(XMavlinkService)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# from https://mavlink.io/en/mavgen_c/
+#You can supress the warnings in CMake using
+add_compile_options(-Wno-address-of-packed-member -Wno-cast-align)
+
 # Build and include wifibroadcast
 include(lib/wifibroadcast/WBLib.cmake)
 
@@ -36,8 +40,3 @@ add_executable(SerialEndpointTest test_serial_endpoint.cpp
 
 target_link_libraries(SerialEndpointTest ${USED_LIBS})
 target_include_directories(SerialEndpointTest PUBLIC lib/c_library_v2_openhd)
-
-# from https://mavlink.io/en/mavgen_c/
-#You can supress the warnings in CMake using
-target_compile_options(XMavlinkService  INTERFACE -Wno-address-of-packed-member -Wno-cast-align)
-target_compile_options(SerialEndpointTest  INTERFACE -Wno-address-of-packed-member -Wno-cast-align)
