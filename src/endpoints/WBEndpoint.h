@@ -34,7 +34,8 @@ private:
     // For debugging without a wifi card, I use UDPEndpoint as a alternative
     // to wifibroadcast.
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
-    std::unique_ptr<UDPEndpoint> emulateWifibroadcastUdpEndpoint;
+    std::unique_ptr<SocketHelper::UDPReceiver> receiver;
+    std::unique_ptr<SocketHelper::UDPForwarder> transmitter;
     static constexpr auto OHD_EMULATE_WB_LINK1_PORT=7000;
     static constexpr auto OHD_EMULATE_WB_LINK2_PORT=7001;
 #endif

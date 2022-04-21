@@ -8,8 +8,12 @@ WBEndpoint::WBEndpoint(std::string TAG,const int txRadioPort,const int rxRadioPo
 MEndpoint(TAG),
 txRadioPort(txRadioPort),rxRadioPort(rxRadioPort) {
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
-    emulateWifibroadcastUdpEndpoint=std::make_unique<UDPEndpoint>((TAG+"Emulate"),txRadioPort,rxRadioPort);
-    emulateWifibroadcastUdpEndpoint->registerCallback(callback);
+    transmitter=std::make_unique<SocketHelper::UDPForwarder>(SocketHelper::ADDRESS_LOCALHOST,txRadioPort);
+    const auto cb=[this](const uint8_t* payload,const std::size_t payloadSize)mutable {
+        this->parseNewData(payload,(int)payloadSize);
+    };
+    receiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,rxRadioPort,cb);
+    receiver->runInBackground();
 #else
     if(txRadioPort==rxRadioPort){
         throw std::runtime_error("WBEndpoint - cannot send and receive on same radio port\n");
@@ -43,8 +47,9 @@ txRadioPort(txRadioPort),rxRadioPort(rxRadioPort) {
 
 void WBEndpoint::sendMessage(const MavlinkMessage &message) {
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
-    if(emulateWifibroadcastUdpEndpoint){
-        emulateWifibroadcastUdpEndpoint->sendMessage(message);
+    if(transmitter){
+        const auto data=message.pack();
+        transmitter->forwardPacketViaUDP(data.data(),data.size());
     }
 #else
     if(wbTransmitter!= nullptr){
