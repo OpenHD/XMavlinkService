@@ -23,7 +23,7 @@ public:
      * @param txRadioPort the radio port of the tx instance
      * @param rxRadioPort the radio port of the rx instance.
      */
-    explicit WBEndpoint(int txRadioPort,int rxRadioPort);
+    explicit WBEndpoint(std::string TAG,int txRadioPort,int rxRadioPort);
     void sendMessage(const MavlinkMessage& message) override;
 private:
     const int txRadioPort;

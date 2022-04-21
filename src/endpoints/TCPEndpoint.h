@@ -24,7 +24,7 @@ public:
     /**
      * @param Port the port this server runs on
      */
-    explicit TCPEndpoint(int Port);
+    explicit TCPEndpoint(std::string TAG,int Port);
     void sendMessage(const MavlinkMessage& message) override;
 private:
     // The port this server runs on

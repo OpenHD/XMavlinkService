@@ -5,7 +5,9 @@
 #include "UDPEndpoint.h"
 
 #include <utility>
-UDPEndpoint::UDPEndpoint(const int senderPort, const int receiverPort):SEND_PORT(senderPort),RECV_PORT(receiverPort){
+UDPEndpoint::UDPEndpoint(std::string TAG,const int senderPort, const int receiverPort):
+MEndpoint(TAG),
+SEND_PORT(senderPort),RECV_PORT(receiverPort){
     if(senderPort==receiverPort){
         throw std::runtime_error("UDPEndpoint - cannot send and receive on same UDP port\n");
     }
@@ -23,7 +25,7 @@ UDPEndpoint::UDPEndpoint(const int senderPort, const int receiverPort):SEND_PORT
 }
 
 void UDPEndpoint::sendMessage(const MavlinkMessage &message) {
-    debugMavlinkMessage(message.m,"UDPEndpoint::sendMessage");
+    //debugMavlinkMessage(message.m,"UDPEndpoint::sendMessage");
     if(transmitter!= nullptr){
         const auto data=message.pack();
         transmitter->forwardPacketViaUDP(data.data(),data.size());

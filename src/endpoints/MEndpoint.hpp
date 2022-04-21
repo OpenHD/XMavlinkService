@@ -7,6 +7,7 @@
 
 #include "../mav_include.h"
 #include <iostream>
+#include <sstream>
 #include <chrono>
 
 // Mavlink Endpoint
@@ -26,7 +27,7 @@ public:
      * And re-establish the connection when disconnected.
      * @param tag a tag for debugging.
      */
-    explicit MEndpoint(std::string tag="MEndpoint"):TAG(std::move(tag)){};
+    explicit MEndpoint(std::string tag):TAG(tag){};
     /**
      * send a message via this endpoint.
      * If the endpoint is silently disconnected, this MUST NOT FAIL/CRASH
@@ -50,8 +51,13 @@ public:
      * in the last X seconds
      */
      bool isAlive(){
-        return (std::chrono::steady_clock::now()-lastMessage).count()>std::chrono::seconds(5).count();
+        return (std::chrono::steady_clock::now()-lastMessage)<std::chrono::seconds(5);
      }
+     void debugIfAlive(){
+         std::cout<<TAG<<" alive:"<<(isAlive() ? "Y":"N")<<"\n";
+     }
+     // can be public since immutable
+     const std::string TAG;
 protected:
     MAV_MSG_CALLBACK callback=nullptr;
     // parse new data as it comes in, extract mavlink messages and forward them on the registered callback (if it has been registered)
@@ -73,7 +79,6 @@ protected:
         }
     }
 private:
-    const std::string TAG;
     mavlink_status_t receiveMavlinkStatus{};
     std::chrono::steady_clock::time_point lastMessage{};
 };

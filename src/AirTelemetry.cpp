@@ -6,7 +6,7 @@
 #include "mav_helper.h"
 
 AirTelemetry::AirTelemetry() {
-    serialEndpoint=std::make_unique<SerialEndpoint>(SerialEndpoint::TEST_SERIAL_PORT);
+    serialEndpoint=std::make_unique<SerialEndpoint>("FCSerial",SerialEndpoint::TEST_SERIAL_PORT);
     serialEndpoint->registerCallback([this](MavlinkMessage& msg){
         this->onMessageFC(msg);
     });
@@ -39,6 +39,13 @@ void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
 
 void AirTelemetry::loopInfinite() {
     while (true){
+        // for debugging, check if any of the endpoints is not alive
+        if(wifibroadcastEndpoint){
+            wifibroadcastEndpoint->debugIfAlive();
+        }
+        if(serialEndpoint){
+            serialEndpoint->debugIfAlive();
+        }
         // send heartbeat to the ground pi - everything else is handled by the callbacks and their threads
         std::this_thread::sleep_for(std::chrono::seconds(3));
         MavlinkMessage heartbeat;

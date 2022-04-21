@@ -18,7 +18,7 @@ GroundTelemetry::GroundTelemetry() {
     tcpGroundCLient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
     });*/
-    udpGroundClient=std::make_unique<UDPEndpoint>(OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
+    udpGroundClient=std::make_unique<UDPEndpoint>("GroundStationUDP",OHD_GROUND_CLIENT_UDP_PORT_OUT,OHD_GROUND_CLIENT_UDP_PORT_IN);
     udpGroundClient->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundStationClients(msg);
     });
@@ -79,11 +79,11 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 void GroundTelemetry::loopInfinite() {
     while (true){
         // for debugging, check if any of the endpoints is not alive
-        if(wifibroadcastEndpoint && !wifibroadcastEndpoint->isAlive()){
-            std::cout<<"WBEndpoint not alive\n";
+        if(wifibroadcastEndpoint){
+            wifibroadcastEndpoint->debugIfAlive();
         }
-        if(udpGroundClient && !udpGroundClient->isAlive()){
-            std::cout<<"UDPGroundEndpoint not alive\n";
+        if(udpGroundClient){
+            udpGroundClient->debugIfAlive();
         }
         // Broadcast existence of OpenHD ground station to all connected clients
         // (for example QOpenHD)

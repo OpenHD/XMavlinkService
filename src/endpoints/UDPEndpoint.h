@@ -15,7 +15,7 @@
 // call sendMessage
 class UDPEndpoint : public MEndpoint{
 public:
-    UDPEndpoint(const int senderPort,const int receiverPort);
+    UDPEndpoint(std::string TAG,const int senderPort,const int receiverPort);
     void sendMessage(const MavlinkMessage& message) override;
 private:
     std::unique_ptr<SocketHelper::UDPReceiver> receiver;

@@ -4,9 +4,11 @@
 
 #include "WBEndpoint.h"
 
-WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(txRadioPort),rxRadioPort(rxRadioPort) {
+WBEndpoint::WBEndpoint(std::string TAG,const int txRadioPort,const int rxRadioPort):
+MEndpoint(TAG),
+txRadioPort(txRadioPort),rxRadioPort(rxRadioPort) {
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
-    emulateWifibroadcastUdpEndpoint=std::make_unique<UDPEndpoint>(txRadioPort,rxRadioPort);
+    emulateWifibroadcastUdpEndpoint=std::make_unique<UDPEndpoint>((TAG+"Emulate"),txRadioPort,rxRadioPort);
     emulateWifibroadcastUdpEndpoint->registerCallback(callback);
 #else
     if(txRadioPort==rxRadioPort){
@@ -40,12 +42,6 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
 }
 
 void WBEndpoint::sendMessage(const MavlinkMessage &message) {
-    /*if(transmitter!= nullptr){
-        const auto data=message.pack();
-        transmitter->forwardPacketViaUDP(data.data(),data.size());
-    }else{
-        std::cerr<<"WBEndpoint::sendMessage with no transmitter\n";
-    }*/
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
     if(emulateWifibroadcastUdpEndpoint){
         emulateWifibroadcastUdpEndpoint->sendMessage(message);
@@ -61,15 +57,15 @@ void WBEndpoint::sendMessage(const MavlinkMessage &message) {
 std::unique_ptr<WBEndpoint> WBEndpoint::createWbEndpointOHD(const bool isAir) {
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
     if(isAir){
-        return std::make_unique<WBEndpoint>(OHD_EMULATE_WB_LINK1_PORT,OHD_EMULATE_WB_LINK2_PORT);
+        return std::make_unique<WBEndpoint>("WBEndpoint-Emu",OHD_EMULATE_WB_LINK1_PORT,OHD_EMULATE_WB_LINK2_PORT);
     }else{
-        return std::make_unique<WBEndpoint>(OHD_EMULATE_WB_LINK2_PORT,OHD_EMULATE_WB_LINK1_PORT);
+        return std::make_unique<WBEndpoint>("WBEndpoint-Emu",OHD_EMULATE_WB_LINK2_PORT,OHD_EMULATE_WB_LINK1_PORT);
     }
 #else
     if(isAir){
-        return std::make_unique<WBEndpoint>(OHD_WB_RADIO_PORT_AIR_TO_GROUND,OHD_WB_RADIO_PORT_GROUND_TO_AIR);
+        return std::make_unique<WBEndpoint>("WBEndpoint",OHD_WB_RADIO_PORT_AIR_TO_GROUND,OHD_WB_RADIO_PORT_GROUND_TO_AIR);
     }else{
-        return std::make_unique<WBEndpoint>(OHD_WB_RADIO_PORT_GROUND_TO_AIR,OHD_WB_RADIO_PORT_AIR_TO_GROUND);
+        return std::make_unique<WBEndpoint>("WBEndpoint",OHD_WB_RADIO_PORT_GROUND_TO_AIR,OHD_WB_RADIO_PORT_AIR_TO_GROUND);
     }
 #endif
 }

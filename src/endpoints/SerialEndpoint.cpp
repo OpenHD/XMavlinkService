@@ -14,8 +14,9 @@
 
 #include "../mav_include.h"
 
-SerialEndpoint::SerialEndpoint(std::string serial_port):SERIAL_PORT(std::move(serial_port)),m_serial(io_service){
-    //boost::thread t1(&SerialEndpoint::loopInfinite, this);
+SerialEndpoint::SerialEndpoint(std::string TAG,std::string serial_port):
+MEndpoint(TAG),
+SERIAL_PORT(std::move(serial_port)),m_serial(io_service){
     std::cout<<"SerialEndpoint created "<<SERIAL_PORT<<"\n";
     mOpenSerialPortThread = std::make_unique<boost::thread>([this] { safeRestart(); });
 }
@@ -25,7 +26,6 @@ void SerialEndpoint::safeCloseCleanup() {
         m_serial.close();
     }
 }
-
 
 void SerialEndpoint::safeRestart() {
     bool opened=false;

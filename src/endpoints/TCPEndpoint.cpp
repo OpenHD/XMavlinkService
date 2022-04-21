@@ -13,7 +13,9 @@
 
 #include "../mav_include.h"
 
-TCPEndpoint::TCPEndpoint(int Port):PORT(Port), _socket(_io_service){
+TCPEndpoint::TCPEndpoint(std::string TAG,int Port):
+MEndpoint(TAG),
+PORT(Port), _socket(_io_service){
     allowConnectionThread=boost::thread(&TCPEndpoint::loopAllowConnection, this);
     std::cout<<"TCPEndpoint created Port:"<<PORT<<"\n";
 };

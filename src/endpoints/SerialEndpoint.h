@@ -28,7 +28,7 @@ public:
     /**
      * @param serial_port the serial port linux name (dev/.. ) for this serial port
      */
-    explicit SerialEndpoint(std::string serial_port);
+    explicit SerialEndpoint(std::string TAG,std::string serial_port);
     void sendMessage(const MavlinkMessage& message) override;
     //
     static constexpr auto USB_SERIAL_PORT="/dev/ttyUSB0";
