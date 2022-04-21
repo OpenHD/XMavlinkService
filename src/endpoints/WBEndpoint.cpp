@@ -18,7 +18,6 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
         RadiotapHeader::UserSelectableParams wifiParams{20, false, 0, false, 1};
         RadiotapHeader radiotapHeader{wifiParams};
         wbTransmitter=std::make_unique<WBTransmitter>(radiotapHeader,tOptions);
-        std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
     }
     {
         ROptions rOptions{};
@@ -32,6 +31,7 @@ WBEndpoint::WBEndpoint(const int txRadioPort,const int rxRadioPort):txRadioPort(
             wbReceiver->loop();
         });
     }
+    std::cout<<"WBEndpoint created tx:"<<txRadioPort<<" rx:"<<rxRadioPort<<"\n";
 
 }
 

@@ -8,6 +8,7 @@
 #include "Helper.hpp"
 #include "MEndpoint.hpp"
 #include "wb_include.h"
+#include "UDPEndpoint.h"
 #include <thread>
 #include <memory>
 
@@ -28,6 +29,9 @@ private:
     std::unique_ptr<WBTransmitter> wbTransmitter;
     std::unique_ptr<WBReceiver> wbReceiver;
     std::unique_ptr<std::thread> receiverThread;
+    // For debugging without a wifi card, I use UDPEndpoint as a alternative
+    // to wifibroadcast.
+    std::unique_ptr<UDPEndpoint> emulatWifibroadcastUdpEndpoint;
 public:
     // Air sends data to this port, ground receives data on this port
     //static constexpr auto OHD_WB_LINK1_PORT=7000;
