@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-#include "src/endpoints/SerialEndpoint.h"
+#include "../src/endpoints/SerialEndpoint.h"
 
 int main() {
     std::cout<< "SerialEndpointTest::start" << std::endl;

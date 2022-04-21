@@ -22,7 +22,7 @@ ENDIF(Boost_FOUND)
 SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBRARY} ${WB_TARGET_LINK_LIBRARIES}
         )
 
-add_executable(XMavlinkService main.cpp
+add_executable(XMavlinkService executables/main.cpp
         src/AirTelemetry.cpp
         src/GroundTelemetry.cpp
         src/endpoints/UDPEndpoint.cpp
@@ -35,7 +35,7 @@ add_executable(XMavlinkService main.cpp
 target_link_libraries(XMavlinkService ${USED_LIBS})
 target_include_directories(XMavlinkService PUBLIC lib/c_library_v2_openhd)
 
-add_executable(SerialEndpointTest test_serial_endpoint.cpp
+add_executable(SerialEndpointTest executables/test_serial_endpoint.cpp
         src/endpoints/SerialEndpoint.cpp)
 
 target_link_libraries(SerialEndpointTest ${USED_LIBS})
