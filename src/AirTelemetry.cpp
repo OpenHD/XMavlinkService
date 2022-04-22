@@ -53,8 +53,7 @@ void AirTelemetry::loopInfinite() {
         }
         // send heartbeat to the ground pi - everything else is handled by the callbacks and their threads
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        MavlinkMessage heartbeat;
-        mavlink_msg_heartbeat_pack(OHD_SYS_ID_AIR, 1, &heartbeat.m, MAV_TYPE_GENERIC, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+        auto heartbeat=OHDMessages::createHeartbeat(true);
         sendMessageGroundPi(heartbeat);
         auto ohdTelemetry=ohdTelemetryGenerator.generateUpdate();
         sendMessageGroundPi(ohdTelemetry);

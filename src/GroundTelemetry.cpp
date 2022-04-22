@@ -87,7 +87,7 @@ void GroundTelemetry::loopInfinite() {
         // (for example QOpenHD)
         // everything else is handled by the callbacks and their threads
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        auto heartbeat=MExampleMessage::heartbeat();
+        auto heartbeat=OHDMessages::createHeartbeat(false);
         sendMessageGroundStationClients(heartbeat);
         auto ohdTelemetry=ohdTelemetryGenerator.generateUpdate();
         sendMessageGroundStationClients(ohdTelemetry);

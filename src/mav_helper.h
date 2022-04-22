@@ -33,5 +33,20 @@ namespace MExampleMessage{
     }
 }
 
+namespace OHDMessages{
+    /**
+     * Both the air and ground service announce their existence with regular heartbeats
+     * one can easily determine from which component the heartbeat comes by the corresponding sys id
+     * TODO: should we also consider the component id ? Right now, we don't really seperate by components yet.
+     * @param isAir if true, the sys_id (source) equals OHD air id, otherwise OHD ground id.
+     */
+    static MavlinkMessage createHeartbeat(bool isAir){
+        MavlinkMessage heartbeat;
+        const auto sys_id=isAir ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND;
+        mavlink_msg_heartbeat_pack(sys_id, 1, &heartbeat.m, MAV_TYPE_GENERIC, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+        return heartbeat;
+    }
+}
+
 
 #endif //XMAVLINKSERVICE_MAV_HELPER_H
