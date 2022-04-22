@@ -1,6 +1,7 @@
 //
 // Created by consti10 on 19.04.22.
 // Executable to test the serial endpoint implementation
+// For testing, just connect a flight controller via uart and look at the console logs
 //
 
 #include <iostream>

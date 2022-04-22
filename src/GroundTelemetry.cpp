@@ -6,13 +6,6 @@
 #include <iostream>
 #include "mav_helper.h"
 
-//static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=14445;
-static constexpr auto OHD_GROUND_CLIENT_TCP_PORT=1234;
-
-static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
-static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
-//static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=58302;
-
 GroundTelemetry::GroundTelemetry() {
     /*tcpGroundCLient=std::make_unique<TCPEndpoint>(OHD_GROUND_CLIENT_TCP_PORT);
     tcpGroundCLient->registerCallback([this](MavlinkMessage& msg){

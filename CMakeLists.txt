@@ -10,6 +10,9 @@ add_compile_options(-Wno-address-of-packed-member -Wno-cast-align)
 # Build and include wifibroadcast
 include(lib/wifibroadcast/WBLib.cmake)
 
+# include mavlink (header-only)
+include_directories(lib/c_library_v2_openhd)
+
 # from https://github.com/alexott/boost-asio-examples/blob/master/CMakeLists.txt
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
@@ -33,10 +36,11 @@ add_executable(XMavlinkService executables/main.cpp
 
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})
-target_include_directories(XMavlinkService PUBLIC lib/c_library_v2_openhd)
 
 add_executable(SerialEndpointTest executables/test_serial_endpoint.cpp
         src/endpoints/SerialEndpoint.cpp)
-
 target_link_libraries(SerialEndpointTest ${USED_LIBS})
-target_include_directories(SerialEndpointTest PUBLIC lib/c_library_v2_openhd)
+
+add_executable(UDPEndpointTest executables/test_udp_endpoint.cpp
+        src/endpoints/UDPEndpoint.cpp)
+target_link_libraries(UDPEndpointTest ${USED_LIBS})
