@@ -45,7 +45,7 @@ static int readTemperature(){
 
 OHDTelemetryGenerator::OHDTelemetryGenerator(bool runsOnAir):RUNS_ON_AIR(runsOnAir) {
     wifibroadcastStatisticsUdpReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,OHD_WIFIBROADCAST_STATISTICS_LOCAL_UDP_PORT,[this](const uint8_t* payload,const std::size_t payloadSize){
-        processNewWifibroadcastStatisticsData(payload,payloadSize);
+        processWifibroadcastStatisticsData(payload,payloadSize);
     });
 }
 
