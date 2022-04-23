@@ -4,6 +4,7 @@
 
 #include "OHDTelemetryGenerator.h"
 #include <iostream>
+#include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
 
 // from https://github.com/OpenHD/Open.HD/blob/35b6b10fbeda43cd06bbfbd90e2daf29629c2f8a/openhd-status/src/statusmicroservice.cpp#L173
 // Return the CPU load of the system the generator is running on
