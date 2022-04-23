@@ -51,6 +51,15 @@ OHDTelemetryGenerator::OHDTelemetryGenerator(bool runsOnAir):RUNS_ON_AIR(runsOnA
 
 void OHDTelemetryGenerator::processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize) {
     std::cout<<"OHDTelemetryGenerator::processNewWifibroadcastStatisticsMessage: "<<payloadSize<<"\n";
+    const auto MSG_SIZE=sizeof(OpenHDStatisticsWriter::Data);
+    if(payloadSize >= MSG_SIZE && (payloadSize % MSG_SIZE ==0)){
+        // we got new properly aligned data
+        OpenHDStatisticsWriter::Data data;
+        memcpy((uint8_t*)&data,payload,MSG_SIZE);
+        lastWbStatisticsMessage[data.radio_port]=data;
+    }else{
+        std::cerr<<"Cannot parse WB statistics due to size mismatch\n";
+    }
 }
 
 MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
