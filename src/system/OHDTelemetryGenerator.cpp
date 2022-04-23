@@ -3,13 +3,53 @@
 //
 
 #include "OHDTelemetryGenerator.h"
+#include <iostream>
+
+// from https://github.com/OpenHD/Open.HD/blob/35b6b10fbeda43cd06bbfbd90e2daf29629c2f8a/openhd-status/src/statusmicroservice.cpp#L173
+// Return the CPU load of the system the generator is running on
+// Unit: Percentage ?
+static int readCpuLoad(){
+    int cpuload_gnd=0;
+    long double a[4];
+    FILE *fp;
+    try {
+        fp = fopen("/proc/stat", "r");
+        fscanf(fp, "%*s %Lf %Lf %Lf %Lf", &a[0], &a[1], &a[2], &a[3]);
+    } catch (...){
+        std::cout << "ERROR: proc reading1" << std::endl;
+    }
+    fclose(fp);
+    cpuload_gnd = (a[0] + a[1] + a[2]) / (a[0] + a[1] + a[2] + a[3]) * 100;
+    return cpuload_gnd;
+}
+
+// from https://github.com/OpenHD/Open.HD/blob/35b6b10fbeda43cd06bbfbd90e2daf29629c2f8a/openhd-status/src/statusmicroservice.cpp#L165
+// Return the CPU/SOC temperature of the system the generator is running on
+// Unit: Degree ?
+static int readTemperature(){
+    int cpu_temperature = 0;
+    FILE *fp;
+    try {
+        fp = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
+        fscanf(fp, "%d", &cpu_temperature);
+    } catch (...){
+        std::cout << "ERROR: thermal reading" << std::endl;
+    }
+    fclose(fp);
+    cpu_temperature= cpu_temperature / 1000;
+    return cpu_temperature;
+}
+
+// TODO please add more documented ! code here for usefully telemetry data.
 
 OHDTelemetryGenerator::OHDTelemetryGenerator(bool runsOnAir):RUNS_ON_AIR(runsOnAir) {
 
 }
 
+
 MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
     MavlinkMessage msg;
+    // by the sys id QGroundControl knows if this message is telemetry data from the air pi or ground pi
     const uint8_t sys_id=RUNS_ON_AIR ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND;
     mavlink_msg_openhd_system_telemetry_pack(sys_id,MAV_COMP_ID_ALL,&msg.m,10,9,8);
     return msg;
