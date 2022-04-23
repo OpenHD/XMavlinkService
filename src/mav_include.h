@@ -34,7 +34,6 @@ static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
 //static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=58302;
 
-
 struct MavlinkMessage{
     mavlink_message_t m{};
     [[nodiscard]] std::vector<uint8_t> pack()const{
