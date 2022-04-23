@@ -44,9 +44,14 @@ static int readTemperature(){
 // TODO please add more documented ! code here for usefully telemetry data.
 
 OHDTelemetryGenerator::OHDTelemetryGenerator(bool runsOnAir):RUNS_ON_AIR(runsOnAir) {
-
+    wifibroadcastStatisticsUdpReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,OHD_WIFIBROADCAST_STATISTICS_LOCAL_UDP_PORT,[this](const uint8_t* payload,const std::size_t payloadSize){
+        processNewWifibroadcastStatisticsData(payload,payloadSize);
+    });
 }
 
+void OHDTelemetryGenerator::processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize) {
+    std::cout<<"OHDTelemetryGenerator::processNewWifibroadcastStatisticsMessage: "<<payloadSize<<"\n";
+}
 
 MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
     MavlinkMessage msg;

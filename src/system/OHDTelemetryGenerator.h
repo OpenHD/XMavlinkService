@@ -6,6 +6,9 @@
 #define XMAVLINKSERVICE_OHDTELEMETRYGENERATOR_H
 
 #include "../mav_helper.h"
+#include "SocketHelper.hpp"
+#include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
+#include <map>
 
 // The purpose of this class is to generate all the OpenHD specific telemetry that can be sent
 // in a fire and forget manner. For example, to report the CPU usage on the air station,
@@ -17,6 +20,13 @@ public:
     MavlinkMessage generateUpdate();
 private:
     const bool RUNS_ON_AIR;
+    std::unique_ptr<SocketHelper::UDPReceiver> wifibroadcastStatisticsUdpReceiver;
+    // for each unique stream ID, store the last received statistics message.
+    std::map<uint8_t ,OpenHDStatisticsWriter::Data> lastWbStatisticsMessage;
+    /**
+     * Called with the raw wifibroadcast statistics data from UDP
+     */
+    void processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize);
 };
 
 
