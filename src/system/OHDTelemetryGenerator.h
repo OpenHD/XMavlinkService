@@ -31,6 +31,7 @@ private:
      * Called with the raw wifibroadcast statistics data from UDP
      */
     void processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize);
+    MavlinkMessage generateSystemTelemetry();
     MavlinkMessage generateWifibroadcastStatistics();
 };
 

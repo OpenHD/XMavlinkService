@@ -74,7 +74,8 @@ void OHDTelemetryGenerator::processWifibroadcastStatisticsData(const uint8_t* pa
     }
 }
 
-MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
+
+MavlinkMessage OHDTelemetryGenerator::generateSystemTelemetry() {
     MavlinkMessage msg;
     mavlink_msg_openhd_system_telemetry_pack(SYS_ID,MAV_COMP_ID_ALL,&msg.m,readCpuLoad(),readTemperature(),8);
     return msg;
@@ -89,3 +90,8 @@ MavlinkMessage OHDTelemetryGenerator::generateWifibroadcastStatistics() {
     auto msg=convertWbStatisticsToMavlink(data,SYS_ID);
     return msg;
 }
+
+MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
+    return generateSystemTelemetry();
+}
+
