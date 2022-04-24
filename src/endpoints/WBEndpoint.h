@@ -28,9 +28,6 @@ public:
 private:
     const int txRadioPort;
     const int rxRadioPort;
-    std::unique_ptr<WBTransmitter> wbTransmitter;
-    std::unique_ptr<WBReceiver> wbReceiver;
-    std::unique_ptr<std::thread> receiverThread;
     // For debugging without a wifi card, I use UDPEndpoint as a alternative
     // to wifibroadcast.
 #ifdef EMULATE_WIFIBROADCAST_CONNECTION
@@ -38,6 +35,10 @@ private:
     std::unique_ptr<SocketHelper::UDPForwarder> transmitter;
     static constexpr auto OHD_EMULATE_WB_LINK1_PORT=7000;
     static constexpr auto OHD_EMULATE_WB_LINK2_PORT=7001;
+#else
+    std::unique_ptr<WBTransmitter> wbTransmitter;
+    std::unique_ptr<WBReceiver> wbReceiver;
+    std::unique_ptr<std::thread> receiverThread;
 #endif
 public:
 public:

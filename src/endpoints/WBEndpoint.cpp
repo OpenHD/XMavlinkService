@@ -52,7 +52,7 @@ void WBEndpoint::sendMessage(const MavlinkMessage &message) {
         transmitter->forwardPacketViaUDP(data.data(),data.size());
     }
 #else
-    if(wbTransmitter!= nullptr){
+    if(wbTransmitter){
         const auto data=message.pack();
         wbTransmitter->feedPacket(data.data(),data.size());
     }
