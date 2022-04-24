@@ -55,8 +55,10 @@ void AirTelemetry::loopInfinite() {
         std::this_thread::sleep_for(std::chrono::seconds(3));
         auto heartbeat=OHDMessages::createHeartbeat(true);
         sendMessageGroundPi(heartbeat);
-        auto ohdTelemetry=ohdTelemetryGenerator.generateUpdates();
-        //sendMessageGroundPi(ohdTelemetry);
+        auto ohdTelemetryMessages=ohdTelemetryGenerator.generateUpdates();
+        for(auto& msg:ohdTelemetryMessages){
+            sendMessageGroundPi(msg);
+        }
         std::cout<<"AirTelemetry::loopInfinite()\n";
     }
 }

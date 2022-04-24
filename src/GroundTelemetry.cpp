@@ -82,8 +82,10 @@ void GroundTelemetry::loopInfinite() {
         std::this_thread::sleep_for(std::chrono::seconds(3));
         auto heartbeat=OHDMessages::createHeartbeat(false);
         sendMessageGroundStationClients(heartbeat);
-        auto ohdTelemetry=ohdTelemetryGenerator.generateUpdates();
-        //sendMessageGroundStationClients(ohdTelemetry);
+        auto ohdTelemetryMessages=ohdTelemetryGenerator.generateUpdates();
+        for(auto& msg:ohdTelemetryMessages){
+            sendMessageGroundStationClients(msg);
+        }
         std::cout<<"GroundTelemetry::loopInfinite()\n";
     }
     /*for(int i=0;i<10000000;i++){
