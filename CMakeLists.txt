@@ -14,6 +14,7 @@ include(lib/wifibroadcast/WBLib.cmake)
 include_directories(lib/c_library_v2_openhd)
 
 # from https://github.com/alexott/boost-asio-examples/blob/master/CMakeLists.txt
+# Find and include boost
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 FIND_PACKAGE(Boost REQUIRED COMPONENTS system thread regex)
