@@ -4,7 +4,9 @@
 sudo apt-get install libboost-all-dev
 and build with cmake
 
-# Developer information - Routing
+## Developer information
+
+# Routing
 Routing: I recommend reading this first: https://github.com/mavlink-router/mavlink-router
 In generall, this module implements the following 2 basic functionalities:
 1) Provide a bidirectional connection from the ground pi directly to the flight controller.
@@ -24,11 +26,17 @@ We can have this module talk to another module (for example a camera/video) modu
 we should avoid this as much as possible - one single executable / code base makes development and especially 
 debugging much easier.
 
-# Developer information - Running
+# Component ID's
+Some mavlink commands are handled by this module itself, some need to be handled by other components (for example video).
+If a message needs to be handled by another component, TODO implement some generic way to echange messages, ideally "better" than TCP/UDP.
+For now, the general rule is: If comp_id == Self, the message is handled internally.
+Otherwise, the message is forwarded to the corresponding component.
+
+# Running / Executing
 This module exists of 2 executables - one executable that runs on the OHD air pi / OHD air unit and one executable that runs on the 
 OHD grund pi / OHD ground unit.
 
-# Developer information - External systems:
+# External (HW) systems
 When you consider this module running on both the air and ground pi, it only needs to talk to the following 2 external systems
  - The Flight controller (connected via UART to the air pi) and the Ground Station (running or connected
 to the ground pi). 
