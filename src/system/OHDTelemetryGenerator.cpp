@@ -50,8 +50,6 @@ static MavlinkMessage convertWbStatisticsToMavlink(const OpenHDStatisticsWriter:
     return msg;
 }
 
-// TODO please add more documented ! code here for usefully telemetry data.
-
 OHDTelemetryGenerator::OHDTelemetryGenerator(bool runsOnAir):RUNS_ON_AIR(runsOnAir),
 SYS_ID(runsOnAir ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND)
 {

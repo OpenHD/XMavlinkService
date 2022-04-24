@@ -14,6 +14,7 @@
 // in a fire and forget manner. For example, to report the CPU usage on the air station,
 // one can read out the cpu usage in regular intervals and send it out (perhaps together with other
 // telemetry values)
+// TODO please add more documented ! code here for usefully telemetry data.
 class OHDTelemetryGenerator {
 public:
     explicit OHDTelemetryGenerator(bool runsOnAir=false);
