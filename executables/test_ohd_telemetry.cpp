@@ -12,11 +12,9 @@ int main() {
     OHDTelemetryGenerator ohdTelemetryGenerator(false);
     const auto start=std::chrono::steady_clock::now();
     while ((std::chrono::steady_clock::now()-start)<std::chrono::minutes(5)){
-        const auto msg=OHDTelemetryGenerator::generateUpdate();
-
+        const auto msg=ohdTelemetryGenerator.generateUpdate();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
-
     std::cout<< "OHDTelemetryGeneratorTest::end" << std::endl;
     return 0;
 }

@@ -44,3 +44,7 @@ target_link_libraries(SerialEndpointTest ${USED_LIBS})
 add_executable(UDPEndpointTest executables/test_udp_endpoint.cpp
         src/endpoints/UDPEndpoint.cpp)
 target_link_libraries(UDPEndpointTest ${USED_LIBS})
+
+add_executable(OHDTelemetryTest executables/test_ohd_telemetry.cpp
+        src/system/OHDTelemetryGenerator.cpp)
+target_link_libraries(OHDTelemetryTest ${USED_LIBS})
