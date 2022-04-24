@@ -27,6 +27,8 @@ int main() {
         udpEndpoint.sendMessage(heartbeat);
         auto position=MExampleMessage::position();
         udpEndpoint.sendMessage(position);
+        auto attitude=MExampleMessage::attitude();
+        udpEndpoint.sendMessage(attitude);
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     std::cout<< "UdpEndpointTest::end" << std::endl;
