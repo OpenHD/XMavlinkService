@@ -15,6 +15,7 @@ extern "C" {
 #include <openhd/mavlink.h>
 #include <openhd/mavlink_msg_openhd_system_telemetry.h>
 #include <openhd/mavlink_msg_openhd_version_message.h>
+#include <openhd/mavlink_msg_openhd_wifibroadcast_statistics.h>
 
 #ifdef __cplusplus
 }
