@@ -26,6 +26,10 @@ We can have this module talk to another module (for example a camera/video) modu
 we should avoid this as much as possible - one single executable / code base makes development and especially 
 debugging much easier.
 
+## System ID's
+This module declares two mavlink sys IDs - one for the Air unit and one for the Ground unit. The routing does not neccessarily follow the mavlink standarts,
+have a look at the implementation and fully read this readme for more information.
+
 ## Component ID's
 Some mavlink commands are handled by this module itself, some need to be handled by other components (for example video).
 If a message needs to be handled by another component, TODO implement some generic way to echange messages, ideally "better" than TCP/UDP.
