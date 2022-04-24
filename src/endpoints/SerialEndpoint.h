@@ -23,6 +23,7 @@
 // try to reconnect
 // 2) Handle no flight controller at all: Simple, just do nothing until a flight controller is connected
 
+// TODO: Maybe replace all the boost stuff with https://github.com/mavlink/c_uart_interface_example/blob/master/serial_port.cpp
 class SerialEndpoint:public MEndpoint{
 public:
     /**
