@@ -9,7 +9,7 @@
 #include "endpoints/SerialEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
 #include "endpoints/WBEndpoint.h"
-#include "system/OHDTelemetryGenerator.h"
+#include "ohd_telemetry/OHDTelemetryGenerator.h"
 
 /**
  * OpenHD Air telemetry service
