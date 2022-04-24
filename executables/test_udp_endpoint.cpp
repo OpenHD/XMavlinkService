@@ -11,7 +11,7 @@
 
 // test if the connection to QOpenHD / QGroundControll can be sucesfully established.
 // You should see heartbeat messages from the ground controll application,
-// and in a changed artificial horizon if the gc supports that
+// and a changed artificial horizon if the gc supports that
 
 int main() {
     std::cout<< "UdpEndpointTest::start" << std::endl;
@@ -23,8 +23,10 @@ int main() {
     const auto start=std::chrono::steady_clock::now();
     while ((std::chrono::steady_clock::now()-start)<std::chrono::minutes(5)){
         udpEndpoint.debugIfAlive();
-        auto msg=MExampleMessage::heartbeat();
-        udpEndpoint.sendMessage(msg);
+        auto heartbeat=MExampleMessage::heartbeat();
+        udpEndpoint.sendMessage(heartbeat);
+        auto position=MExampleMessage::position();
+        udpEndpoint.sendMessage(position);
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     std::cout<< "UdpEndpointTest::end" << std::endl;
