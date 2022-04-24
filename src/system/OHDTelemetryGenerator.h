@@ -9,6 +9,7 @@
 #include "SocketHelper.hpp"
 #include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
 #include <map>
+#include <vector>
 
 // The purpose of this class is to generate all the OpenHD specific telemetry that can be sent
 // in a fire and forget manner. For example, to report the CPU usage on the air station,
@@ -18,20 +19,26 @@
 class OHDTelemetryGenerator {
 public:
     explicit OHDTelemetryGenerator(bool runsOnAir=false);
-    MavlinkMessage generateUpdate();
+    /**
+     * generate all the OHD fire and forget telemetry data
+     * should be called in regular intervals.
+     * @return all the generated OHD mavlink messages
+     */
+    std::vector<MavlinkMessage> generateUpdates();
 private:
     const bool RUNS_ON_AIR;
     // by the sys id QGroundControl knows if this message is telemetry data from the air pi or ground pi
     const uint8_t SYS_ID;
+    // Here all the wb rx instance(s) send their statistics to.
     std::unique_ptr<SocketHelper::UDPReceiver> wifibroadcastStatisticsUdpReceiver;
     // for each unique stream ID, store the last received statistics message.
     // Probably best to go for a write - read, since we don't want to perform any
     // dangerous work on the main service thread.
     std::map<uint8_t ,OpenHDStatisticsWriter::Data> lastWbStatisticsMessage;
     /**
-     * Called with the raw wifibroadcast statistics data from UDP
+     * Called with the raw Wifibroadcast statistics data from UDP
      */
-    void processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize);
+    void processWifibroadcastStatisticsData(const uint8_t* payload,std::size_t payloadSize);
     MavlinkMessage generateSystemTelemetry();
     MavlinkMessage generateWifibroadcastStatistics();
 };

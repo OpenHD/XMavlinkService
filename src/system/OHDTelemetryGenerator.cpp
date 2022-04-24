@@ -89,7 +89,10 @@ MavlinkMessage OHDTelemetryGenerator::generateWifibroadcastStatistics() {
     return msg;
 }
 
-MavlinkMessage OHDTelemetryGenerator::generateUpdate() {
-    return generateSystemTelemetry();
+std::vector<MavlinkMessage> OHDTelemetryGenerator::generateUpdates() {
+    std::vector<MavlinkMessage> ret;
+    ret.push_back(generateSystemTelemetry());
+    ret.push_back(generateWifibroadcastStatistics());
+    return ret;
 }
 
