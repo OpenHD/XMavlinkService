@@ -19,7 +19,7 @@ namespace LogCustomOHDMessages{
         ss<<"MAVLINK_MSG_ID_OPENHD_SYSTEM_TELEMETRY:cpu:"<<decoded.cpuload<<"temp:"<<decoded.temperature<<"\n";
         std::cout<<ss.str();
     }
-    static void logWifibroadccast(const mavlink_message_t& msg){
+    static void logWifiBroadcast(const mavlink_message_t& msg){
         assert(msg.msgid==MAVLINK_MSG_ID_OPENHD_WIFIBROADCAST_STATISTICS);
         mavlink_openhd_wifibroadcast_statistics_t decoded;
         mavlink_msg_openhd_wifibroadcast_statistics_decode(&msg,&decoded);
@@ -32,7 +32,7 @@ namespace LogCustomOHDMessages{
             if(msg.m.msgid==MAVLINK_MSG_ID_OPENHD_SYSTEM_TELEMETRY){
                 logSystem(msg.m);
             }else if(msg.m.msgid==MAVLINK_MSG_ID_OPENHD_WIFIBROADCAST_STATISTICS){
-                logWifibroadccast(msg.m);
+                logWifiBroadcast(msg.m);
             }else{
                 std::cerr<<"unknown ohd msg\n";
             }
