@@ -49,3 +49,6 @@ target_link_libraries(UDPEndpointTest ${USED_LIBS})
 add_executable(OHDTelemetryTest executables/test_ohd_telemetry.cpp
         src/ohd_telemetry/OHDTelemetryGenerator.cpp)
 target_link_libraries(OHDTelemetryTest ${USED_LIBS})
+
+add_executable(OHDRebootTest executables/test_ohd_reboot.cpp)
+target_link_libraries(OHDRebootTest ${USED_LIBS})

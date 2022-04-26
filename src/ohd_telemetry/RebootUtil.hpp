@@ -8,10 +8,9 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/process.hpp>
 #include <chrono>
 #include <iostream>
-
-#include "../Helper.hpp"
 
 // convenient utils to handle the shutdown or reboot commands for OpenHD.
 // based on
