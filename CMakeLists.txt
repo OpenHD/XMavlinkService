@@ -26,7 +26,7 @@ ENDIF(Boost_FOUND)
 SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBRARY} ${WB_TARGET_LINK_LIBRARIES}
         )
 
-add_executable(XMavlinkService executables/main.cpp
+add_executable(XMavlinkService src/main.cpp
         src/AirTelemetry.cpp
         src/GroundTelemetry.cpp
         src/endpoints/UDPEndpoint.cpp
@@ -38,17 +38,17 @@ add_executable(XMavlinkService executables/main.cpp
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})
 
-add_executable(SerialEndpointTest executables/test_serial_endpoint.cpp
+add_executable(SerialEndpointTest tests/test_serial_endpoint.cpp
         src/endpoints/SerialEndpoint.cpp)
 target_link_libraries(SerialEndpointTest ${USED_LIBS})
 
-add_executable(UDPEndpointTest executables/test_udp_endpoint.cpp
+add_executable(UDPEndpointTest tests/test_udp_endpoint.cpp
         src/endpoints/UDPEndpoint.cpp)
 target_link_libraries(UDPEndpointTest ${USED_LIBS})
 
-add_executable(OHDTelemetryTest executables/test_ohd_telemetry.cpp
+add_executable(OHDTelemetryTest tests/test_ohd_telemetry.cpp
         src/ohd_telemetry/OHDTelemetryGenerator.cpp)
 target_link_libraries(OHDTelemetryTest ${USED_LIBS})
 
-add_executable(OHDRebootTest executables/test_ohd_reboot.cpp)
+add_executable(OHDRebootTest tests/test_ohd_reboot.cpp)
 target_link_libraries(OHDRebootTest ${USED_LIBS})

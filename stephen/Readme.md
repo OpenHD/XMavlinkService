@@ -1,1 +1,0 @@
-Here I copied the tcp, udp and uart endpoints from stephen
