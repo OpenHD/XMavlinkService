@@ -9,7 +9,7 @@
 #include "endpoints/SerialEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
 #include "endpoints/WBEndpoint.h"
-#include "ohd_telemetry/OHDTelemetryGenerator.h"
+#include "ohd_telemetry/InternalTelemetry.h"
 
 /**
  * OpenHD Air telemetry service
@@ -32,7 +32,7 @@ public:
 private:
     std::unique_ptr<SerialEndpoint> serialEndpoint;
     std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
-    OHDTelemetryGenerator ohdTelemetryGenerator{true};
+    InternalTelemetry ohdTelemetryGenerator{true};
 };
 
 

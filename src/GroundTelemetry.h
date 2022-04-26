@@ -10,7 +10,7 @@
 #include "endpoints/UDPEndpoint.h"
 #include "endpoints/WBEndpoint.h"
 #include "endpoints/SerialEndpoint.h"
-#include "ohd_telemetry//OHDTelemetryGenerator.h"
+#include "ohd_telemetry//InternalTelemetry.h"
 
 /**
  * OpenHD Ground telemetry service
@@ -36,7 +36,7 @@ private:
     std::unique_ptr<TCPEndpoint> tcpGroundCLient;
     std::unique_ptr<UDPEndpoint> udpGroundClient;
     std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
-    OHDTelemetryGenerator ohdTelemetryGenerator{true};
+    InternalTelemetry ohdTelemetryGenerator{true};
 };
 
 

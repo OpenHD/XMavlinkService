@@ -1,6 +1,6 @@
-Here should everything regarding handling system related commands or generating
-system related telemetry messages go.
-This is only intended for (telemetry) messages that can be fire-and-forget though !
+
+The code for all commands that can be handled by this service itself (commands without side effects)
+should be placed here. As well as code generating OHD fire and forget telemetry messages (like CPU Usage).
 
 Example for handling:
 reboot / shutdown commands

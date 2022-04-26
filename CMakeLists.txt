@@ -33,7 +33,7 @@ add_executable(XMavlinkService src/main.cpp
         src/endpoints/TCPEndpoint.cpp
         src/endpoints/SerialEndpoint.cpp
         src/endpoints/WBEndpoint.cpp
-        src/ohd_telemetry/OHDTelemetryGenerator.cpp)
+        src/ohd_telemetry/InternalTelemetry.cpp)
 
 # Alternatively you could use ${Boost_LIBRARIES} here.
 target_link_libraries(XMavlinkService ${USED_LIBS})
@@ -47,7 +47,7 @@ add_executable(UDPEndpointTest tests/test_udp_endpoint.cpp
 target_link_libraries(UDPEndpointTest ${USED_LIBS})
 
 add_executable(OHDTelemetryTest tests/test_ohd_telemetry.cpp
-        src/ohd_telemetry/OHDTelemetryGenerator.cpp)
+        src/ohd_telemetry/InternalTelemetry.cpp)
 target_link_libraries(OHDTelemetryTest ${USED_LIBS})
 
 add_executable(OHDRebootTest tests/test_ohd_reboot.cpp)
