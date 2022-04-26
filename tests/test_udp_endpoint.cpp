@@ -10,8 +10,9 @@
 #include "../src/mav_include.h"
 
 // test if the connection to QOpenHD / QGroundControll can be sucesfully established.
-// You should see heartbeat messages from the ground controll application,
-// and a changed artificial horizon if the gc supports that
+// Run this application on the same system QOpenHD is running on, and
+// you should see heartbeat messages from the ground controll application,
+// and a changed artificial horizon in the gc application if the gc supports that
 
 int main() {
     std::cout<< "UdpEndpointTest::start" << std::endl;
