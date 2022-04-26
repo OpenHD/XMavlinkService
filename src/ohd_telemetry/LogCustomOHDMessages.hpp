@@ -16,7 +16,7 @@ namespace LogCustomOHDMessages{
         mavlink_openhd_system_telemetry_t decoded;
         mavlink_msg_openhd_system_telemetry_decode(&msg,&decoded);
         std::stringstream ss;
-        ss<<"MAVLINK_MSG_ID_OPENHD_SYSTEM_TELEMETRY:cpu:"<<decoded.cpuload<<"temp:"<<decoded.temperature<<"\n";
+        ss<<"MAVLINK_MSG_ID_OPENHD_SYSTEM_TELEMETRY:cpuload:"<<(int)decoded.cpuload<<"temp:"<<(int)decoded.temperature<<"\n";
         std::cout<<ss.str();
     }
     static void logWifiBroadcast(const mavlink_message_t& msg){
@@ -24,7 +24,7 @@ namespace LogCustomOHDMessages{
         mavlink_openhd_wifibroadcast_statistics_t decoded;
         mavlink_msg_openhd_wifibroadcast_statistics_decode(&msg,&decoded);
         std::stringstream ss;
-        ss<<"MAVLINK_MSG_ID_OPENHD_WIFIBROADCAST_STATISTICS:count_p_all:"<<decoded.count_p_all<<"count_p_lost:"<<decoded.count_p_lost<<"\n";
+        ss<<"MAVLINK_MSG_ID_OPENHD_WIFIBROADCAST_STATISTICS:count_p_all:"<<(int)decoded.count_p_all<<"count_p_lost:"<<(int)decoded.count_p_lost<<"\n";
         std::cout<<ss.str();
     }
     static void logMessages(const std::vector<MavlinkMessage>& msges){
