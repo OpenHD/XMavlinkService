@@ -36,6 +36,10 @@ If a message needs to be handled by another component, TODO implement some gener
 For now, the general rule is: If comp_id == Self, the message is handled internally.
 Otherwise, the message is forwarded to the corresponding component.
 
+## Handling commands
+If a command (for example reboot) does not have any special platform dependencies or side effects, it can (and SHOULD!) be handled
+by this module itself. Otherwise, it might be forwarded to the proper module.
+
 ## Running / Executing
 This module exists of 2 executables - one executable that runs on the OHD air pi / OHD air unit and one executable that runs on the 
 OHD grund pi / OHD ground unit.
