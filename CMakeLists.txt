@@ -17,13 +17,13 @@ include_directories(lib/c_library_v2_openhd)
 # Find and include boost
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
-FIND_PACKAGE(Boost REQUIRED COMPONENTS system thread regex)
+FIND_PACKAGE(Boost REQUIRED COMPONENTS system thread regex filesystem)
 IF(Boost_FOUND)
     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
     LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 ENDIF(Boost_FOUND)
 
-SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBRARY} ${WB_TARGET_LINK_LIBRARIES}
+SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_FILESYSTEM_LIBRARY} ${WB_TARGET_LINK_LIBRARIES}
         )
 
 add_executable(XMavlinkService src/main.cpp

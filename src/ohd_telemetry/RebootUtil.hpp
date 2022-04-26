@@ -5,7 +5,6 @@
 #ifndef XMAVLINKSERVICE_HANDLEPOWERCOMMANDS_H
 #define XMAVLINKSERVICE_HANDLEPOWERCOMMANDS_H
 
-#include <utility>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/process.hpp>
@@ -18,6 +17,7 @@
 namespace RebootUtil {
     // either shut down or reboot
     static void handlePowerCommand(bool shutdownOnly) {
+        boost::asio::io_service m_io_service;
         if (shutdownOnly) {
             std::cout << "handlePowerCommand()-shutdown\n";
             boost::process::child c_systemctl_shutdown(
