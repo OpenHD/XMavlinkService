@@ -15,9 +15,10 @@ SYS_ID(runsOnAir ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND)
         processWifibroadcastStatisticsData(payload,payloadSize);
     });
     wifibroadcastStatisticsUdpReceiver->runInBackground();
-    logMessagesReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,1111,[this](const uint8_t* payload,const std::size_t payloadSize){
+    logMessagesReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,OHD_LOCAL_LOG_MESSAGES_UDP_PORT,[this](const uint8_t* payload,const std::size_t payloadSize){
         processLogMessageData(payload,payloadSize);
     });
+    logMessagesReceiver->runInBackground();
 }
 
 std::vector<MavlinkMessage> InternalTelemetry::generateUpdates() {
