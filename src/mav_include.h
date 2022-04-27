@@ -35,6 +35,10 @@ static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_OUT=14550;
 static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=14551;
 //static constexpr auto OHD_GROUND_CLIENT_UDP_PORT_IN=58302;
 
+// TODO remove when in main repo
+static constexpr auto OHD_TELEMETRY_WIFIBROADCAST_LOCAL_UDP_PORT_GROUND_RX=16550;
+static constexpr auto OHD_TELEMETRY_WIFIBROADCAST_LOCAL_UDP_PORT_GROUND_TX=16551;
+
 struct MavlinkMessage{
     mavlink_message_t m{};
     [[nodiscard]] std::vector<uint8_t> pack()const{
