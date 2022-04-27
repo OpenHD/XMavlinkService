@@ -25,6 +25,8 @@ std::vector<MavlinkMessage> InternalTelemetry::generateUpdates() {
     std::vector<MavlinkMessage> ret;
     ret.push_back(generateSystemTelemetry());
     ret.push_back(generateWifibroadcastStatistics());
+    auto logs=generateLogMessages();
+    ret.insert(ret.end(),logs.begin(),logs.end());
     return ret;
 }
 
@@ -65,8 +67,24 @@ MavlinkMessage InternalTelemetry::generateWifibroadcastStatistics() {
     return msg;
 }
 
-void InternalTelemetry::processLogMessageData(uint8_t *data, int dataLen) {
+std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
+    std::vector<MavlinkMessage> ret;
+    std::lock_guard<std::mutex> guard(bufferedLogMessagesLock);
+    while (!bufferedLogMessages.empty()){
+        const auto msg = bufferedLogMessages.front();
+        if(msg.msg.length()<50){
+            MavlinkMessage mavMsg;
+            mavlink_msg_openhd_log_message_pack(SYS_ID,MAV_COMP_ID_ALL,&mavMsg.m,msg.severity,msg.msg.c_str(),0);
+            ret.push_back(mavMsg);
+        }
+        // TODO: do something with str.
+        bufferedLogMessages.pop();
+    }
+    return ret;
+}
 
+void InternalTelemetry::processLogMessageData(const uint8_t* data,std::size_t dataLen) {
+    // TODO
 }
 
 

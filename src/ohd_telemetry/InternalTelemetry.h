@@ -10,6 +10,8 @@
 #include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
 #include <map>
 #include <vector>
+#include <queue>
+#include <mutex>
 
 // The purpose of this class is to generate all the OpenHD specific telemetry that can be sent
 // in a fire and forget manner, as well as handling commands without side effects.
@@ -50,11 +52,21 @@ private:
     void processWifibroadcastStatisticsData(const uint8_t* payload,std::size_t payloadSize);
     MavlinkMessage generateSystemTelemetry();
     MavlinkMessage generateWifibroadcastStatistics();
+    // pack all the buffered log messages
+    std::vector<MavlinkMessage> generateLogMessages();
     // here all the log messages are sent to - not in their mavlink form yet.
     std::unique_ptr<SocketHelper::UDPReceiver> logMessagesReceiver;
     // process the incoming log messages. This one is a bit dangerous, it must handle the character
     // limit imposed by mavlink and the null terminator
     void processLogMessageData(const uint8_t* data,std::size_t dataLen);
+    struct logMessage{
+        int severity;
+        uint64_t ts;
+        std::string msg;
+    };
+    std::queue<logMessage> bufferedLogMessages;
+    // one thread writes the queue, another one reads the queue
+    std::mutex bufferedLogMessagesLock;
 };
 
 
