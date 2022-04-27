@@ -2,8 +2,8 @@
 // Created by consti10 on 27.04.22.
 //
 
-#ifndef XMAVLINKSERVICE_WBSTATISTICSCONVERTER_H
-#define XMAVLINKSERVICE_WBSTATISTICSCONVERTER_H
+#ifndef XMAVLINKSERVICE_WBSTATISTICSCONVERTER_HPP
+#define XMAVLINKSERVICE_WBSTATISTICSCONVERTER_HPP
 
 #include "../endpoints/wb_include.h"
 #include "../mav_include.h"
@@ -23,4 +23,4 @@ namespace WBStatisticsConverter{
         return msg;
     }
 }
-#endif //XMAVLINKSERVICE_WBSTATISTICSCONVERTER_H
+#endif //XMAVLINKSERVICE_WBSTATISTICSCONVERTER_HPP

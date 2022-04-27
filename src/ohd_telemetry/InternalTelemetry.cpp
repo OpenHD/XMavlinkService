@@ -6,8 +6,16 @@
 #include <iostream>
 #include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
 #include "SystemReadUtil.hpp"
-#include "WBStatisticsConverter.h"
+#include "WBStatisticsConverter.hpp"
 
+InternalTelemetry::InternalTelemetry(bool runsOnAir):RUNS_ON_AIR(runsOnAir),
+SYS_ID(runsOnAir ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND)
+{
+    wifibroadcastStatisticsUdpReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,OHD_WIFIBROADCAST_STATISTICS_LOCAL_UDP_PORT,[this](const uint8_t* payload,const std::size_t payloadSize){
+        processWifibroadcastStatisticsData(payload,payloadSize);
+    });
+    wifibroadcastStatisticsUdpReceiver->runInBackground();
+}
 
 std::vector<MavlinkMessage> InternalTelemetry::generateUpdates() {
     std::vector<MavlinkMessage> ret;
@@ -21,15 +29,6 @@ bool InternalTelemetry::handleMavlinkCommandIfPossible(const MavlinkMessage &msg
     //if(msg.m.msgid==MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN){
     //}
     return false;
-}
-
-InternalTelemetry::InternalTelemetry(bool runsOnAir):RUNS_ON_AIR(runsOnAir),
-SYS_ID(runsOnAir ? OHD_SYS_ID_AIR : OHD_SYS_ID_GROUND)
-{
-    wifibroadcastStatisticsUdpReceiver=std::make_unique<SocketHelper::UDPReceiver>(SocketHelper::ADDRESS_LOCALHOST,OHD_WIFIBROADCAST_STATISTICS_LOCAL_UDP_PORT,[this](const uint8_t* payload,const std::size_t payloadSize){
-        processWifibroadcastStatisticsData(payload,payloadSize);
-    });
-    wifibroadcastStatisticsUdpReceiver->runInBackground();
 }
 
 void InternalTelemetry::processWifibroadcastStatisticsData(const uint8_t* payload,const std::size_t payloadSize) {
