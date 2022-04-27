@@ -69,6 +69,7 @@ void GroundTelemetry::sendMessageAirPi(MavlinkMessage& message) {
 
 void GroundTelemetry::loopInfinite() {
     while (true){
+        std::cout<<"GroundTelemetry::loopInfinite()\n";
         // for debugging, check if any of the endpoints is not alive
         if(wifibroadcastEndpoint){
             wifibroadcastEndpoint->debugIfAlive();
@@ -79,24 +80,13 @@ void GroundTelemetry::loopInfinite() {
         // Broadcast existence of OpenHD ground station to all connected clients
         // (for example QOpenHD)
         // everything else is handled by the callbacks and their threads
-        std::this_thread::sleep_for(std::chrono::seconds(3));
         auto heartbeat=OHDMessages::createHeartbeat(false);
         sendMessageGroundStationClients(heartbeat);
         auto ohdTelemetryMessages=ohdTelemetryGenerator.generateUpdates();
         for(auto& msg:ohdTelemetryMessages){
             sendMessageGroundStationClients(msg);
         }
-        std::cout<<"GroundTelemetry::loopInfinite()\n";
-    }
-    /*for(int i=0;i<10000000;i++){
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        auto heartbeat=MExampleMessage::heartbeat();
-        sendMessageGroundStationClients(heartbeat);
-        auto attitude= MExampleMessage::attitude();
-        sendMessageGroundStationClients(attitude);
-        auto position=MExampleMessage::position();
-        sendMessageGroundStationClients(position);
-        std::cout<<"X\n";
-    }*/
+    }
 }
 

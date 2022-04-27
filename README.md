@@ -6,6 +6,11 @@ and build with cmake
 
 # Developer information
 
+## Preconditions
+This service assumes a connection between the air and ground pi (bidirectional) setup by openhd-interface.
+Aka both air and ground service send their data / listen on specific UDP localhost ports, if they are
+wired up to a wifibroadcast instance (and if the link works) the service cannot and does not need to know.
+
 ## Routing
 Routing: I recommend reading this first: https://github.com/mavlink-router/mavlink-router
 In generall, this module implements the following 2 basic functionalities:

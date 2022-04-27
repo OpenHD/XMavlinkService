@@ -16,6 +16,9 @@ std::vector<MavlinkMessage> InternalTelemetry::generateUpdates() {
 }
 
 bool InternalTelemetry::handleMavlinkCommandIfPossible(const MavlinkMessage &msg) {
+    // regarding reboot: https://mavlink.io/en/messages/common.html#MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN
+    //if(msg.m.msgid==MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN){
+    //}
     return false;
 }
 
