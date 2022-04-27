@@ -30,6 +30,7 @@ public:
     // This must NEVER crash
     void loopInfinite();
 private:
+    static constexpr auto M_SYS_ID=OHD_SYS_ID_AIR;
     std::unique_ptr<SerialEndpoint> serialEndpoint;
     // For now, use UDP endpoint and rely on another service for starting the rx/tx links
     //std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;

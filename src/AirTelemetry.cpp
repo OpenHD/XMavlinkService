@@ -34,8 +34,10 @@ void AirTelemetry::sendMessageGroundPi(MavlinkMessage& message) {
 
 void AirTelemetry::onMessageGroundPi(MavlinkMessage& message) {
     const mavlink_message_t& m=message.m;
-    // we do not need to forward heartbeat messages coming from the ground telemetry service
+    // we do not need to forward heartbeat messages coming from the ground telemetry service,
+    // They solely have a debugging purpose such that one knows the other service is alive.
     if(m.msgid==MAVLINK_MSG_ID_HEARTBEAT && m.sysid==OHD_SYS_ID_GROUND){
+        // heartbeat coming from the ground service
         return;
     }
     // for now, do it as simple as possible
