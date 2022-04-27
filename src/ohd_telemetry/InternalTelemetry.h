@@ -50,6 +50,11 @@ private:
     void processWifibroadcastStatisticsData(const uint8_t* payload,std::size_t payloadSize);
     MavlinkMessage generateSystemTelemetry();
     MavlinkMessage generateWifibroadcastStatistics();
+    // here all the log messages are sent to - not in their mavlink form yet.
+    std::unique_ptr<SocketHelper::UDPReceiver> logMessagesReceiver;
+    // process the incoming log messages. This one is a bit dangerous, it must handle the character
+    // limit imposed by mavlink and the null terminator
+    void processLogMessageData(const uint8_t* data,std::size_t dataLen);
 };
 
 
