@@ -72,12 +72,11 @@ std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
     std::lock_guard<std::mutex> guard(bufferedLogMessagesLock);
     while (!bufferedLogMessages.empty()){
         const auto msg = bufferedLogMessages.front();
-        if(msg.msg.length()<50){
+        if(msg.msg.length()<50){ //49 characters and string terminator
             MavlinkMessage mavMsg;
             mavlink_msg_openhd_log_message_pack(SYS_ID,MAV_COMP_ID_ALL,&mavMsg.m,msg.severity,msg.msg.c_str(),0);
             ret.push_back(mavMsg);
         }
-        // TODO: do something with str.
         bufferedLogMessages.pop();
     }
     return ret;
