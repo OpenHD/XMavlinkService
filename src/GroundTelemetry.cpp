@@ -80,7 +80,6 @@ void GroundTelemetry::loopInfinite() {
         }
         // Broadcast existence of OpenHD ground station to all connected clients
         // (for example QOpenHD)
-        // everything else is handled by the callbacks and their threads
         auto heartbeat=OHDMessages::createHeartbeat(false);
         sendMessageGroundStationClients(heartbeat);
         // We also broadcast a heartbeat to the air pi, such that it knows the ground service is alive

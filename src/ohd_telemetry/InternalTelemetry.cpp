@@ -6,6 +6,7 @@
 #include <iostream>
 #include "../../lib/wifibroadcast/src/OpenHDStatisticsWriter.hpp"
 #include "SystemReadUtil.hpp"
+#include "WBStatisticsConverter.h"
 
 
 std::vector<MavlinkMessage> InternalTelemetry::generateUpdates() {
@@ -20,13 +21,6 @@ bool InternalTelemetry::handleMavlinkCommandIfPossible(const MavlinkMessage &msg
     //if(msg.m.msgid==MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN){
     //}
     return false;
-}
-
-static MavlinkMessage convertWbStatisticsToMavlink(const OpenHDStatisticsWriter::Data& data,const uint8_t sys_id){
-    MavlinkMessage msg;
-    mavlink_msg_openhd_wifibroadcast_statistics_pack(sys_id,MAV_COMP_ID_ALL,&msg.m,data.radio_port,data.count_p_all,data.count_p_bad,data.count_p_dec_ok,
-                                                     data.count_p_dec_ok,data.count_p_fec_recovered,data.count_p_lost);
-    return msg;
 }
 
 InternalTelemetry::InternalTelemetry(bool runsOnAir):RUNS_ON_AIR(runsOnAir),
@@ -64,7 +58,7 @@ MavlinkMessage InternalTelemetry::generateWifibroadcastStatistics() {
     data.radio_port=0;
     data.count_p_all=3;
     data.count_p_dec_err=4;
-    auto msg=convertWbStatisticsToMavlink(data,SYS_ID);
+    auto msg=WBStatisticsConverter::convertWbStatisticsToMavlink(data,SYS_ID);
     return msg;
 }
 
