@@ -8,8 +8,11 @@ and build with cmake
 
 ## Preconditions
 This service assumes a connection between the air and ground pi (bidirectional) setup by openhd-interface.
-Aka both air and ground service send their data / listen on specific UDP localhost ports, if they are
+Aka both air and ground service send their data / listen on specific UDP localhost ports. However,if they are
 wired up to a wifibroadcast instance (and if the link works) the service cannot and does not need to know.
+The rx/tx ports are set up in such a way that if both the air and ground service run on the same machine,
+they talk to each other via UDP. Aka the UDP port the air unit sends data to is the same UDP port the ground unit listens on,
+and vice versa.
 
 ## Routing
 Routing: I recommend reading this first: https://github.com/mavlink-router/mavlink-router
