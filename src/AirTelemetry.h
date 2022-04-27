@@ -31,7 +31,9 @@ public:
     void loopInfinite();
 private:
     std::unique_ptr<SerialEndpoint> serialEndpoint;
-    std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
+    // For now, use UDP endpoint and rely on another service for starting the rx/tx links
+    //std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
+    std::unique_ptr<UDPEndpoint> wifibroadcastEndpoint;
     InternalTelemetry ohdTelemetryGenerator{true};
 };
 

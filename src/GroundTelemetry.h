@@ -31,11 +31,11 @@ public:
     // This must NEVER crash
     void loopInfinite();
 private:
-    // This endpoint goes out to the wifibroadcast tx/ rx instances
-    //UDPEndpoint wifibroadcastEndpoint{};
     std::unique_ptr<TCPEndpoint> tcpGroundCLient;
     std::unique_ptr<UDPEndpoint> udpGroundClient;
-    std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
+    // For now, use UDP endpoint and rely on another service for starting the rx/tx links
+    //std::unique_ptr<WBEndpoint> wifibroadcastEndpoint;
+    std::unique_ptr<UDPEndpoint> wifibroadcastEndpoint;
     InternalTelemetry ohdTelemetryGenerator{true};
 };
 

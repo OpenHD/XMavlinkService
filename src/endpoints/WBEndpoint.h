@@ -12,7 +12,7 @@
 #include <thread>
 #include <memory>
 
-#define EMULATE_WIFIBROADCAST_CONNECTION
+//#define EMULATE_WIFIBROADCAST_CONNECTION
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.
 class WBEndpoint :public MEndpoint{

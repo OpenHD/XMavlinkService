@@ -11,7 +11,7 @@ AirTelemetry::AirTelemetry() {
         this->onMessageFC(msg);
     });
     // any message coming in via wifibroadcast is a message from the ground pi
-    wifibroadcastEndpoint=WBEndpoint::createWbEndpointOHD(true);
+    wifibroadcastEndpoint=UDPEndpoint::createEndpointForOHDWifibroadcast(true);
     wifibroadcastEndpoint->registerCallback([this](MavlinkMessage& msg){
         onMessageGroundPi(msg);
     });

@@ -34,6 +34,13 @@ void UDPEndpoint::sendMessage(const MavlinkMessage &message) {
     }
 }
 
+std::unique_ptr<UDPEndpoint> UDPEndpoint::createEndpointForOHDWifibroadcast(const bool isAir) {
+    const std::string tag=std::string("WBUDPEndpoint").append(isAir ? "A":"G");
+    const auto txp=isAir ? 1 : 0;
+    const auto rxp=isAir ? 0 : 1;
+    return std::make_unique<UDPEndpoint>(tag,txp,rxp);
+}
+
 
 
 
