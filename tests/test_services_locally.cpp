@@ -4,8 +4,8 @@
 //
 #include <iostream>
 
-#include "GroundTelemetry.h"
-#include "AirTelemetry.h"
+#include "../src/GroundTelemetry.h"
+#include "../src/AirTelemetry.h"
 #include <thread>
 
 static constexpr auto TAG="XMAVLINK_SERVICE_TEST";
