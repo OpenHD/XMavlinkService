@@ -59,12 +59,11 @@ private:
     // process the incoming log messages. This one is a bit dangerous, it must handle the character
     // limit imposed by mavlink and the null terminator
     void processLogMessageData(const uint8_t* data,std::size_t dataLen);
-    struct logMessage{
-        int severity;
-        uint64_t ts;
-        std::string msg;
-    };
-    std::queue<logMessage> bufferedLogMessages;
+    typedef struct {
+        uint8_t level;
+        uint8_t message[50];
+    } __attribute__((packed)) localmessage_t;
+    std::queue<localmessage_t> bufferedLogMessages;
     // one thread writes the queue, another one reads the queue
     std::mutex bufferedLogMessagesLock;
 };

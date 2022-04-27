@@ -17,7 +17,7 @@
 // It MUST also hide away any problems that could exist with this endpoint - e.g. a disconnecting UART.
 // If (for example) in case of UART the connection is lost, it should just try to reconnect
 // and as soon as the connection has been re-established, continue working as if nothing happened.
-// This "send/receive data when possible, otherwise do nothing" behaviour fits well with the mavlink paradigma:
+// This "send/receive data when possible, otherwise do nothing" behaviour fits well with the mavlink paradigm:
 // https://mavlink.io/en/services/heartbeat.html
 // "A component is considered to be connected to the network if its HEARTBEAT message is regularly received, and disconnected if a number of expected messages are not received."
 class MEndpoint{

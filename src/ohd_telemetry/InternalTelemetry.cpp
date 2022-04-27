@@ -74,10 +74,10 @@ std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
         const auto msg = bufferedLogMessages.front();
         // for additional safety, we do not create more than 5 log messages per iteration, the rest is dropped
         // Otherwise we might run into bandwidth issues I suppose
-        if(ret.size()<5 && msg.msg.length()<50){ //49 characters and string terminator
+        if(ret.size()<5){
             MavlinkMessage mavMsg;
             const uint64_t timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
-            mavlink_msg_openhd_log_message_pack(SYS_ID,MAV_COMP_ID_ALL,&mavMsg.m,msg.severity,msg.msg.c_str(),timestamp);
+            mavlink_msg_openhd_log_message_pack(SYS_ID,MAV_COMP_ID_ALL,&mavMsg.m,msg.level,(const char*)&msg.message,timestamp);
             ret.push_back(mavMsg);
         }else{
             std::stringstream ss;
@@ -90,8 +90,9 @@ std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
 }
 
 void InternalTelemetry::processLogMessageData(const uint8_t* data,std::size_t dataLen) {
-    if (dataLen == sizeof(logMessage)) {
-        logMessage local_message;
+    //TODO fix safety
+    if (dataLen == sizeof(localmessage_t)) {
+        localmessage_t local_message;
         memcpy((uint8_t*)&local_message, data, dataLen);
         std::lock_guard<std::mutex> guard(bufferedLogMessagesLock);
         bufferedLogMessages.push(local_message);
