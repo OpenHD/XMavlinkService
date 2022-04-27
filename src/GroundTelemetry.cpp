@@ -82,6 +82,8 @@ void GroundTelemetry::loopInfinite() {
         // everything else is handled by the callbacks and their threads
         auto heartbeat=OHDMessages::createHeartbeat(false);
         sendMessageGroundStationClients(heartbeat);
+        // We also broadcast a heartbeat to the air pi, such that it knows the ground service is alive
+        sendMessageAirPi(heartbeat);
         auto ohdTelemetryMessages=ohdTelemetryGenerator.generateUpdates();
         for(auto& msg:ohdTelemetryMessages){
             sendMessageGroundStationClients(msg);

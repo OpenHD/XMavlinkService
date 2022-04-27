@@ -57,7 +57,9 @@ public:
       * For debugging, print if this endpoint is alive (an endpoint is alive if it has received mavlink messages in the last X seconds).
       */
      void debugIfAlive(){
-         std::cout<<TAG<<" alive:"<<(isAlive() ? "Y":"N")<<"\n";
+         std::stringstream ss;
+         ss<<TAG<<" alive:"<<(isAlive() ? "Y":"N")<<"\n";
+         std::cout<<ss.str();
      }
      // can be public since immutable
      const std::string TAG;
