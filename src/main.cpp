@@ -6,7 +6,7 @@
 
 static constexpr auto TAG="XMAVLINK_SERVICE";
 int main() {
-    std::cout <<TAG<< "start" << std::endl;
+    std::cout <<TAG<< "start\n";
 
     /*const bool AIR= false;
     if(AIR){
