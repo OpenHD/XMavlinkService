@@ -72,10 +72,16 @@ std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
     std::lock_guard<std::mutex> guard(bufferedLogMessagesLock);
     while (!bufferedLogMessages.empty()){
         const auto msg = bufferedLogMessages.front();
-        if(msg.msg.length()<50){ //49 characters and string terminator
+        // for additional safety, we do not create more than 5 log messages per iteration, the rest is dropped
+        // Otherwise we might run into bandwidth issues I suppose
+        if(ret.size()<5 && msg.msg.length()<50){ //49 characters and string terminator
             MavlinkMessage mavMsg;
             mavlink_msg_openhd_log_message_pack(SYS_ID,MAV_COMP_ID_ALL,&mavMsg.m,msg.severity,msg.msg.c_str(),0);
             ret.push_back(mavMsg);
+        }else{
+            std::stringstream ss;
+            ss<<"Dropping log message "<<msg.msg<<"\n";
+            std::cout<<ss.str();
         }
         bufferedLogMessages.pop();
     }
