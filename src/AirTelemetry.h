@@ -17,6 +17,10 @@
 class AirTelemetry {
 public:
     explicit AirTelemetry();
+    // this is the main entry point for this service - it will run infinitely (until the air unit is either powered down or crashes).
+    // This must NEVER crash
+    void loopInfinite();
+private:
     // send a mavlink message to the flight controller connected to the air unit via UART
     void sendMessageFC(MavlinkMessage& message);
     // called every time a message from the flight controller bus is received
@@ -25,10 +29,6 @@ public:
     void sendMessageGroundPi(MavlinkMessage& message);
     // called every time a message from the ground pi is received
     void onMessageGroundPi(MavlinkMessage& message);
-public:
-    // this is the main entry point for this service - it will run infinitely (until the air unit is either powered down or crashes).
-    // This must NEVER crash
-    void loopInfinite();
 private:
     static constexpr auto M_SYS_ID=OHD_SYS_ID_AIR;
     std::unique_ptr<SerialEndpoint> serialEndpoint;

@@ -18,6 +18,10 @@
 class GroundTelemetry {
 public:
     explicit GroundTelemetry();
+    // this is the main entry point for this service - it will run infinitely (until the air unit is either powered down or crashes).
+    // This must NEVER crash
+    void loopInfinite();
+private:
     // called every time a message from the air pi is received
     void onMessageAirPi(MavlinkMessage& message);
     // send a message to the air pi
@@ -26,10 +30,6 @@ public:
     void onMessageGroundStationClients(MavlinkMessage& message);
     // send a message to all clients connected to the ground station, for example QOpenHD
     void sendMessageGroundStationClients(MavlinkMessage& message);
-public:
-    // this is the main entry point for this service - it will run infinitely (until the air unit is either powered down or crashes).
-    // This must NEVER crash
-    void loopInfinite();
 private:
     static constexpr auto M_SYS_ID=OHD_SYS_ID_GROUND;
     std::unique_ptr<TCPEndpoint> tcpGroundCLient;
