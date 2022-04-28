@@ -12,6 +12,8 @@
 #include <thread>
 #include <memory>
 
+// TODO: THIS ONE IS UNUSED SO FAR, RELIES ON UDPENDPOINT instead
+
 //#define EMULATE_WIFIBROADCAST_CONNECTION
 
 // dummy for now, this is what handles the Wifibroadcast out/in on air or ground pi.

@@ -31,7 +31,7 @@ SET(ALL_TELEMETRY_SOURCE_FILES
         src/endpoints/UDPEndpoint.cpp
         src/endpoints/TCPEndpoint.cpp
         src/endpoints/SerialEndpoint.cpp
-        src/endpoints/WBEndpoint.cpp
+        #src/endpoints/WBEndpoint.cpp
         src/ohd_telemetry/InternalTelemetry.cpp)
 
 add_executable(XMavlinkService src/main.cpp

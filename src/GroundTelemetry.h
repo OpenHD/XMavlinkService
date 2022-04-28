@@ -8,7 +8,7 @@
 #include "Helper.hpp"
 #include "endpoints/TCPEndpoint.h"
 #include "endpoints/UDPEndpoint.h"
-#include "endpoints/WBEndpoint.h"
+//#include "endpoints/WBEndpoint.h"
 #include "endpoints/SerialEndpoint.h"
 #include "ohd_telemetry//InternalTelemetry.h"
 
