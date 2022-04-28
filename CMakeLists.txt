@@ -25,7 +25,7 @@ ENDIF(Boost_FOUND)
 
 SET(USED_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_THREAD_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_FILESYSTEM_LIBRARY} ${WB_TARGET_LINK_LIBRARIES})
 
-add_executable(XMavlinkService src/main.cpp
+SET(ALL_TELEMETRY_SOURCE_FILES
         src/AirTelemetry.cpp
         src/GroundTelemetry.cpp
         src/endpoints/UDPEndpoint.cpp
@@ -33,6 +33,9 @@ add_executable(XMavlinkService src/main.cpp
         src/endpoints/SerialEndpoint.cpp
         src/endpoints/WBEndpoint.cpp
         src/ohd_telemetry/InternalTelemetry.cpp)
+
+add_executable(XMavlinkService src/main.cpp
+        ${ALL_TELEMETRY_SOURCE_FILES})
 
 target_link_libraries(XMavlinkService ${USED_LIBS})
 
@@ -52,14 +55,8 @@ add_executable(OHDRebootTest tests/test_ohd_reboot.cpp)
 target_link_libraries(OHDRebootTest ${USED_LIBS})
 
 #####
-add_executable(RunLocallyTest tests/test_services_locally.cpp
-        src/AirTelemetry.cpp
-        src/GroundTelemetry.cpp
-        src/endpoints/UDPEndpoint.cpp
-        src/endpoints/TCPEndpoint.cpp
-        src/endpoints/SerialEndpoint.cpp
-        src/endpoints/WBEndpoint.cpp
-        src/ohd_telemetry/InternalTelemetry.cpp)
+add_executable(ServicesLocallyTest tests/test_services_locally.cpp
+        ${ALL_TELEMETRY_SOURCE_FILES})
 
-target_link_libraries(RunLocallyTest ${USED_LIBS})
+target_link_libraries(ServicesLocallyTest ${USED_LIBS})
 #####
