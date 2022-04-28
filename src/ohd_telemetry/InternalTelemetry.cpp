@@ -81,7 +81,7 @@ std::vector<MavlinkMessage> InternalTelemetry::generateLogMessages() {
             ret.push_back(mavMsg);
         }else{
             std::stringstream ss;
-            ss<<"Dropping log message "<<msg.msg<<"\n";
+            ss<<"Dropping log message "<<msg.message<<"\n";
             std::cout<<ss.str();
         }
         bufferedLogMessages.pop();
