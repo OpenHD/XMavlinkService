@@ -54,6 +54,9 @@ target_link_libraries(OHDGenerateTelemetryTest ${USED_LIBS})
 add_executable(OHDRebootTest tests/test_ohd_reboot.cpp)
 target_link_libraries(OHDRebootTest ${USED_LIBS})
 
+add_executable(test_generate_log_message tests/test_generate_log_message.cpp)
+target_link_libraries(test_generate_log_message ${USED_LIBS})
+
 #####
 add_executable(ServicesLocallyTest tests/test_services_locally.cpp
         ${ALL_TELEMETRY_SOURCE_FILES})
