@@ -1,4 +1,4 @@
-# WORK IN PROGRESS
+# Achieved, has been merged into openhd main repository
 
 ## Building
 sudo apt-get install libboost-all-dev
