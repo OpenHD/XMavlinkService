@@ -1,4 +1,4 @@
-# Achieved, has been merged into openhd main repository
+# Achieved, has been merged into openhd main repository under openhd-telemetry
 
 ## Building
 sudo apt-get install libboost-all-dev
